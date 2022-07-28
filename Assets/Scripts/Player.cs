@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject _laserPrefab;
     [SerializeField] float _fireRate = 2f;
     float _canFire = -1f;
+    [SerializeField] int _lives = 3;
 
 
     void Start()
@@ -47,5 +48,14 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -4.78f, 4.25f), transform.position.z);
     }
 
+    public void Damage()
+    {
+        _lives--;
+
+        if (_lives < 1)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
 }
