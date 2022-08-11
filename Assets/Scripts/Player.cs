@@ -7,15 +7,18 @@ public class Player : MonoBehaviour
     [SerializeField] float _playerSpeed = 5f;
     [SerializeField] GameObject _laserPrefab;
     [SerializeField] float _fireRate = 2f;
-    float _canFire = -1f;
     [SerializeField] int _lives = 3;
-
+    float _canFire = -1f;
+    SpawnManager _spawnManager;
 
     void Start()
     {
-
+        _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
+        if (_spawnManager == null)
+        {
+            Debug.LogError("The Spawn Manager is NULL");
+        }
     }
-
 
     void Update()
     {
@@ -54,6 +57,7 @@ public class Player : MonoBehaviour
 
         if (_lives < 1)
         {
+            _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
     }

@@ -7,7 +7,7 @@ public class EnemyA : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.down * Time.deltaTime * 2);
+        transform.Translate(Vector3.down * Time.deltaTime * 5);
 
         if (transform.position.y < -6.5f)
         {
@@ -16,7 +16,7 @@ public class EnemyA : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
@@ -26,7 +26,6 @@ public class EnemyA : MonoBehaviour
             {
                 player.Damage();
             }
-
 
             Destroy(this.gameObject);
         }
