@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] int _lives = 3;
     float _canFire = -1f;
     SpawnManager _spawnManager;
+    public Animator _animator;
 
     void Start()
     {
@@ -39,8 +40,21 @@ public class Player : MonoBehaviour
 
     void PlayerMovement()
     {
+        _animator.SetBool("xIsIdle", true);
+
         Vector2 movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         transform.Translate(movement * _playerSpeed * Time.deltaTime);
+
+        _animator.SetFloat("xMovement", Input.GetAxisRaw("Horizontal"));
+
+        if (Input.GetAxisRaw("Horizontal") != 0f)
+        {
+            _animator.SetBool("xIsIdle", false);
+        }
+        else
+        {
+            _animator.SetBool("xIsIdle", true);
+        }
     }
 
     void ScreenClamp()
