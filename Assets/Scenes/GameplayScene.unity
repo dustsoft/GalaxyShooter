@@ -10166,7 +10166,7 @@ SpriteRenderer:
   m_SortingLayerID: 1765681135
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2fb679646ce1e40459185ffe9ff38d0d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f6812a1d212454849a70a212bdc7a769, type: 3}
   m_Color: {r: 1, g: 0.7216981, b: 0.7216981, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10248,7 +10248,7 @@ SpriteRenderer:
   m_SortingLayerID: 1765681135
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2fb679646ce1e40459185ffe9ff38d0d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f6812a1d212454849a70a212bdc7a769, type: 3}
   m_Color: {r: 0.75, g: 1, b: 0.9925373, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10302,7 +10302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 926ff54e5bf5e43df9e2582853d10552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 4888116011426332138, guid: 3cfa57eee37754b00b9795d0ec86e7eb, type: 3}
+  _enemyPrefab: {fileID: 4888116011426332138, guid: 8f00c7be433b74c46ba52ad3a33fe2f9, type: 3}
   _enemyContainer: {fileID: 969730350}
   _enemySpawnRate: 4.75
 --- !u!4 &1338145376

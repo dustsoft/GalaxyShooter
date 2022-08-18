@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
 
         _animator.SetFloat("xMovement", Input.GetAxisRaw("Horizontal"));
 
+
         if (Input.GetAxisRaw("Horizontal") != 0f)
         {
             _animator.SetBool("xIsIdle", false);
