@@ -11,16 +11,16 @@ public class EnemyA : MonoBehaviour
 
     void Update()
     {
-        _spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>(); //Need to null check
+        _spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>();
 
-        //Moves the enemy down the screen
-        //Will need to change later when the enemy needs to be more agile for gameplay enhancement
         transform.Translate(Vector3.down * Time.deltaTime * 5);
+
         if (transform.position.y < -6.5f)
         {
-            float randomX = Random.Range(-5.25f, 5.25f);
-            transform.position = new Vector3(randomX, 6.5f, 0f);
-        }
+            Destroy(this.gameObject);
+            //float randomX = Random.Range(-5.25f, 5.25f);
+            //transform.position = new Vector3(randomX, 6.5f, 0f);
+       }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -44,7 +44,12 @@ public class EnemyA : MonoBehaviour
         if (other.tag == "Laser") // Laser Collides with Enemy (Really the only no player object in the game).
         {                         // May beed to change later on.
             Destroy(other.gameObject);
-            EnemyHitFlash();
+
+            if (_spriteRenderer != null)
+            {
+                EnemyHitFlash();
+            }
+
             _enemyHitPoints--;
 
             if (_enemyHitPoints < 1)

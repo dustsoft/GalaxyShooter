@@ -5,9 +5,11 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] float _playerSpeed = 5f;
-    [SerializeField] GameObject _laserPrefab;
-    [SerializeField] float _fireRate = 2f;
     [SerializeField] int _lives = 3;
+    [SerializeField] GameObject _laserPrefab;
+    [SerializeField] GameObject _laserPowerUp01Prefab;
+    [SerializeField] float _fireRate = 2f;
+    bool _isLaserPowerUp01Active = false;
     float _canFire = -1f;
     SpawnManager _spawnManager;
     public Animator _animator;
@@ -34,8 +36,16 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-        _canFire = Time.time + _fireRate * 0.085f;
-        Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+        if (_isLaserPowerUp01Active)
+        {
+            _canFire = Time.time + _fireRate * 0.085f;
+            Instantiate(_laserPowerUp01Prefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+        }
+        else
+        {
+            _canFire = Time.time + _fireRate * 0.085f;
+            Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+        }
     }
 
     void PlayerMovement()
@@ -75,6 +85,18 @@ public class Player : MonoBehaviour
             _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
+    }
+
+    public void LaserPowerUp01Active()
+    {
+        _isLaserPowerUp01Active = true;
+        StartCoroutine(PowerUpCoolDown());
+    }
+
+    IEnumerator PowerUpCoolDown()
+    {
+        yield return new WaitForSeconds(10.0f);
+        _isLaserPowerUp01Active = false;
     }
 
 }
