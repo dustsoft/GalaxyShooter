@@ -5044,8 +5044,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerSpeed: 5
   _lives: 3
-  _laserPrefab: {fileID: 677189058016842086, guid: c491dd3c15cca472dab9a93591949053, type: 3}
-  _laserPowerUp01Prefab: {fileID: 496636113667033124, guid: 82634b30c56144682bd0ac498c0b52cb, type: 3}
+  _powerLevel: 0
+  _laserPrefabs:
+  - {fileID: 677189058016842086, guid: c491dd3c15cca472dab9a93591949053, type: 3}
+  - {fileID: 496636113667033124, guid: 82634b30c56144682bd0ac498c0b52cb, type: 3}
+  - {fileID: 5783983754705119772, guid: 7c96b63f01e0a49149d67132564dfc34, type: 3}
+  - {fileID: 7211759219677974200, guid: 0ff9456ea47a640969c1f5e63709e401, type: 3}
   _fireRate: 1.5
   _animator: {fileID: 580639299}
 --- !u!212 &580639296

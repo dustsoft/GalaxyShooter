@@ -28,7 +28,8 @@ public class PowerUp : MonoBehaviour
                 switch(_powerUpID)
                 {
                     case 0:
-                        player.LaserPowerUp01Active();
+                        //player.LaserPowerUp01Active();
+                        player.LaserPowerUp();
                         break;
                     case 1:
                         //player.ShieldPowerUp();
