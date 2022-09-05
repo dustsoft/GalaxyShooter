@@ -28,11 +28,10 @@ public class PowerUp : MonoBehaviour
                 switch(_powerUpID)
                 {
                     case 0:
-                        //player.LaserPowerUp01Active();
                         player.LaserPowerUp();
                         break;
                     case 1:
-                        //player.ShieldPowerUp();
+                        player.ShieldPowerUp();
                         Debug.Log("Shield Powerup!");
                         break;
                 }

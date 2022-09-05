@@ -9,6 +9,13 @@ public class EnemyA : MonoBehaviour
     [SerializeField] int _enemyHitPoints = 5;
     [SerializeField] int _hitFlashes;
 
+    [SerializeField] Player _player;
+
+    private void Start()
+    {
+        _player = GameObject.Find("Player").GetComponent<Player>();
+    }
+
     void Update()
     {
         _spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>();
@@ -54,12 +61,15 @@ public class EnemyA : MonoBehaviour
 
             if (_enemyHitPoints < 1)
             {
+                if (_player != null)
+                {
+                    _player.AddScore();
+                }
                 Destroy(this.gameObject);
             }
         }
         #endregion
     }
-
 
     void EnemyHitFlash()
     {
