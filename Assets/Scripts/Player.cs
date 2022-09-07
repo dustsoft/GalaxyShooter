@@ -1,41 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [Header ("Components")]
-    public Animator _animator;
+    #region VARIABLES
+
+    [Header("Player Info")]
+    [Tooltip("How fast the player's movement speed is.")]
+    [SerializeField] float _playerSpeed = 5f;
+
+    [SerializeField] int _lives = 3;
+
+    [Tooltip("The player laser fire rate.")]
+    [SerializeField] float _fireRate = 1.5f;
+
+    [SerializeField] int _scoreValue = 0;
+    [SerializeField] int _highScoreValue;
+    float _canFire = -1f;
 
     [Header ("Powerups")]
-    public bool _laserPowerupActive = false;
+    [Tooltip("Power Level 0 is the default laser power.")]
     [SerializeField] int _powerLevel = 0;
+
+    [Tooltip("Drag laser Prefabs here used for laser powerup levels.")]
     [SerializeField] GameObject[] _laserPrefabs;
+
+    [Tooltip("Drag shield Prefabs here for shields powerup VFX.")]
     [SerializeField] GameObject _shieldGraphicPrefab;
-    public bool _shieldPowerupActive = false;
 
-    [Header ("Player Info")]
-    [SerializeField] float _playerSpeed = 5f;
-    [SerializeField] int _lives = 3;
-    [SerializeField] float _fireRate = 2f;
-    [SerializeField] int _scoreValue = 0;
+    [Header ("Game Objects & Components")]
+    public GameObject _playerGraphic;
+    public GameObject _explosionPrefab;
+    public Animator _animator;
 
-    float _canFire = -1f;
+    GameManager _gameManager;
     SpawnManager _spawnManager;
     UIManager _uiManager;
 
-    public GameObject _playerGraphic;
-    public GameObject _explosionPrefab;
-
+    bool _shieldPowerupActive = false;
+    bool _gameOver = false;
     bool _playerDeathRoutine = false;
     bool _canPlay = true;
-
-    #region UNUSED VARIABLES
-    //[SerializeField] GameObject _laserPrefab;
-    //[SerializeField] GameObject _laserPowerUp01Prefab;
-    //bool _isLaserPowerUp01Active = false;
     #endregion
-
 
     void Start()
     {
@@ -56,13 +64,32 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        PlayerMovement();
+        _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+
         ScreenClamp();
 
-        if (Input.GetKey(KeyCode.Space) && Time.time > _canFire && _canPlay == true)
+        #region BUTTON & KEY INPUTS
+
+        // Player Movement Input
+        PlayerMovement();
+
+        // Player Shooting Input
+        if (Input.GetKey(KeyCode.Space) && Time.time > _canFire && _canPlay == true && _gameOver == false)
         {
             FireLaser();
         }
+
+        // Player Game Over Input
+        if (Input.GetKeyDown(KeyCode.R) && _gameOver == true)
+        {
+            Time.timeScale = 1f;
+            _canPlay = true;
+            _gameOver = false;
+            PlayerPrefs.SetInt("_highScoreValue", _scoreValue);
+            _gameManager.RestartLevel();
+
+         }
+        #endregion
     }
 
     void FireLaser()
@@ -87,23 +114,11 @@ public class Player : MonoBehaviour
                 break;
         }
 
-
-
-        //if (_isLaserPowerUp01Active)
-        //{
-          //  _canFire = Time.time + _fireRate * 0.085f;
-            //Instantiate(_laserPowerUp01Prefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
-        //}
-        //else
-        //{
-          //  _canFire = Time.time + _fireRate * 0.085f;
-            //Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
-        //}
     }
 
     void PlayerMovement()
     {
-        if (_canPlay == true)
+        if (_canPlay == true && _gameOver == false) // Player can only move ship if canPlay is true.
         {
             _animator.SetBool("xIsIdle", true);
 
@@ -134,7 +149,7 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        if (_playerDeathRoutine == true)
+        if (_playerDeathRoutine == true && _canPlay == true) // Invincibility period after losing a life
         {
             return;
         }
@@ -146,6 +161,7 @@ public class Player : MonoBehaviour
             return;
         }
 
+        _canPlay = false;
         _explosionPrefab.SetActive(true);
         _playerGraphic.SetActive(false);
         _lives--;
@@ -153,26 +169,30 @@ public class Player : MonoBehaviour
         _playerDeathRoutine = true;
         StartCoroutine(PlayerDeathRoutine());
 
-        if (_lives < 0)
+        if (_lives < 0) // Game Over when losing all lives
         {
+            _canPlay = false;
+            _gameOver = true;
+            _spawnManager.OnPlayerDeath();
+            Time.timeScale = 0.25f;
             _explosionPrefab.SetActive(true);
             _playerGraphic.SetActive(false);
+            _uiManager.GameOverSequnce();
             _playerDeathRoutine = true;
             StartCoroutine(PlayerGameOverRoutine());
+
         }
     }
 
     public void LaserPowerUp()
     {
-        _laserPowerupActive = true;
         if (_powerLevel < 3)
         {
             _powerLevel++;
         }
         else
         {
-            //add score
-            Debug.Log("Add Score!");
+            AddScore();
         }
     }
 
@@ -187,20 +207,29 @@ public class Player : MonoBehaviour
 
     public void AddScore()
     {
-        _scoreValue += 50;
-        _uiManager.UpdateScore(_scoreValue);
+        _scoreValue += 50; // May need to use variable in future for point scaling
+
+        if (_scoreValue > _highScoreValue) // Highscore System doesn't work yet.
+        {
+            PlayerPrefs.SetInt("_highScoreValue", _scoreValue);
+        }
+
+        _highScoreValue = PlayerPrefs.GetInt("_highScoreValue");
+
+        _uiManager.UpdateScore(_scoreValue, _highScoreValue);
+
     }
 
-    IEnumerator PlayerDeathRoutine()
+    #region COROUTINES
+    IEnumerator PlayerDeathRoutine() // Gameplay Death Routine
     {
-        while (_playerDeathRoutine == true)
+        while (_playerDeathRoutine == true && _gameOver == false && _lives > -1)
         {
-            _canPlay = false;
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.25f);
             transform.position = new Vector3(0, -4, 0);
             _explosionPrefab.SetActive(false);
-            _playerGraphic.SetActive(true);
             _powerLevel = 0;
+            _playerGraphic.SetActive(true);
             _canPlay = true;
             _shieldGraphicPrefab.SetActive(true);
             yield return new WaitForSeconds(1f);
@@ -209,31 +238,16 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator PlayerGameOverRoutine()
+    IEnumerator PlayerGameOverRoutine() // Game Over Routine
     {
-        while (_playerDeathRoutine == true)
+        while (_playerDeathRoutine == true && _gameOver == true)
         {
-            _canPlay = false;
-            yield return new WaitForSeconds(1.5f);
-            _spawnManager.OnPlayerDeath();
-            Destroy(this.gameObject);
+            yield return new WaitForSeconds(0.25f);
+            Time.timeScale = 1f;
             _playerDeathRoutine = false;
         }
 
     }
-
-    #region UNUSED CODE
-    public void LaserPowerUp01Active() // not in use rn
-    {
-        //_isLaserPowerUp01Active = true;
-        StartCoroutine(PowerUpCoolDown());
-    }
-
-    IEnumerator PowerUpCoolDown()  // not in use rn
-    {
-        yield return new WaitForSeconds(10.0f);
-        //_isLaserPowerUp01Active = false;
-    }
     #endregion
+
 }
- 
