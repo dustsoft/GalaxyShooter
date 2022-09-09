@@ -6,6 +6,9 @@ public class EnemyA : MonoBehaviour
 {
     [SerializeField] SpriteRenderer _spriteRenderer;
     [SerializeField] GameObject _enemyObject;
+    [SerializeField] GameObject _explosionObject;
+    [SerializeField] GameObject _laserImpactVFX;
+    [SerializeField] BoxCollider2D _enemyHitBox;
     [SerializeField] int _enemyHitPoints = 5;
     [SerializeField] int _hitFlashes;
 
@@ -43,13 +46,13 @@ public class EnemyA : MonoBehaviour
                 player.Damage();
             }
 
-            Destroy(this.gameObject);
+            StartCoroutine(EnemyExplosion());
         }
         #endregion
 
         #region Laser Collision
         if (other.tag == "Laser") // Laser Collides with Enemy (Really the only no player object in the game).
-        {                         // May beed to change later on.
+        {                         // May need to change later on.
             Destroy(other.gameObject);
 
             if (_spriteRenderer != null)
@@ -65,7 +68,8 @@ public class EnemyA : MonoBehaviour
                 {
                     _player.AddScore();
                 }
-                Destroy(this.gameObject);
+
+                StartCoroutine(EnemyExplosion());
             }
         }
         #endregion
@@ -81,15 +85,29 @@ public class EnemyA : MonoBehaviour
     {
         int howManyFlashes = _hitFlashes;
 
-        while (howManyFlashes > 0)
+        while (howManyFlashes > 0 && _laserImpactVFX != null)
         {
             _spriteRenderer.color = new Color(255, 0, 0);
+            _laserImpactVFX.SetActive(true);
             yield return null;
             _spriteRenderer.color = new Color(255, 255, 255);
+            yield return new WaitForSeconds(.015f);
+            _laserImpactVFX.SetActive(false);
+            yield return null;
             yield return null;
             howManyFlashes--;
         }
     }
 
+    IEnumerator EnemyExplosion()
+    {
+        yield return null;
+        _explosionObject.SetActive(true);
+        _enemyObject.SetActive(false);
+        _enemyHitBox.GetComponent<BoxCollider2D>().enabled = false;
+        yield return new WaitForSeconds(0.55f);
+        yield return null;
+        Destroy(this.gameObject);
+    }
     #endregion
 }

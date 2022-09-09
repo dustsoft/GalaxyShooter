@@ -8,6 +8,6 @@ public class GameManager : MonoBehaviour
 
     public void RestartLevel() // Restarts the level after a GAME OVER
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }

@@ -95,6 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletSpeed: 25
+  _impactVFXPrefab: {fileID: 8774690824573678258, guid: 4068f3f68fca64dcdb676a594880b2f0, type: 3}
 --- !u!1 &8351350335413475402
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +165,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -613322647
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b030d335857201646be69703e678d6e5, type: 3}
   m_Color: {r: 0, g: 1, b: 0.41568628, a: 1}
@@ -246,7 +247,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -613322647
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b030d335857201646be69703e678d6e5, type: 3}
   m_Color: {r: 0, g: 1, b: 0.41568628, a: 1}
