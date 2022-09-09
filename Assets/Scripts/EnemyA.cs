@@ -28,8 +28,6 @@ public class EnemyA : MonoBehaviour
         if (transform.position.y < -6.5f)
         {
             Destroy(this.gameObject);
-            //float randomX = Random.Range(-5.25f, 5.25f);
-            //transform.position = new Vector3(randomX, 6.5f, 0f);
        }
     }
 
