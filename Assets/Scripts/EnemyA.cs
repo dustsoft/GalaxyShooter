@@ -11,12 +11,24 @@ public class EnemyA : MonoBehaviour
     [SerializeField] BoxCollider2D _enemyHitBox;
     [SerializeField] int _enemyHitPoints = 5;
     [SerializeField] int _hitFlashes;
-
     [SerializeField] Player _player;
+
+    [SerializeField] AudioClip _explosionSFX;
+    [SerializeField] AudioSource _audioSource;
 
     private void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         _player = GameObject.Find("Player").GetComponent<Player>();
+
+        if (_audioSource == null)
+        {
+            Debug.LogError("Audio Source is null on Enemy A");
+        }
+        else
+        {
+            _audioSource.clip = _explosionSFX;
+        }
     }
 
     void Update()
@@ -90,7 +102,12 @@ public class EnemyA : MonoBehaviour
             yield return null;
             _spriteRenderer.color = new Color(255, 255, 255);
             yield return new WaitForSeconds(.015f);
-            _laserImpactVFX.SetActive(false);
+
+            if (_laserImpactVFX != null)
+            {
+                _laserImpactVFX.SetActive(false);
+            }
+
             yield return null;
             yield return null;
             howManyFlashes--;
@@ -102,8 +119,10 @@ public class EnemyA : MonoBehaviour
         yield return null;
         _explosionObject.SetActive(true);
         _enemyObject.SetActive(false);
+        yield return null;
+        _audioSource.Play();
         _enemyHitBox.GetComponent<BoxCollider2D>().enabled = false;
-        yield return new WaitForSeconds(0.55f);
+        yield return new WaitForSeconds(0.75f);
         yield return null;
         Destroy(this.gameObject);
     }

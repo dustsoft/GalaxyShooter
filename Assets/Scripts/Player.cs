@@ -39,6 +39,10 @@ public class Player : MonoBehaviour
     SpawnManager _spawnManager;
     UIManager _uiManager;
 
+    [Header("Audio FX")]
+    [SerializeField] AudioClip _laserSFX;
+    [SerializeField] AudioSource _audioSource;
+
     bool _shieldPowerupActive = false;
     bool _gameOver = false;
     bool _playerDeathRoutine = false;
@@ -48,6 +52,16 @@ public class Player : MonoBehaviour
     void Start()
     {
         _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
+        _audioSource = GetComponent<AudioSource>();
+
+        if (_audioSource == null)
+        {
+            Debug.LogError("AudioSource on the player is NULL");
+        }
+        else
+        {
+            _audioSource.clip = _laserSFX;
+        }
 
         if (_spawnManager == null)
         {
@@ -112,7 +126,9 @@ public class Player : MonoBehaviour
                 _canFire = Time.time + _fireRate * 0.085f;
                 Instantiate(_laserPrefabs[3], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
                 break;
-        }
+        } // Switch is used for different laser powerup levels.
+
+        _audioSource.Play();
 
     }
 
