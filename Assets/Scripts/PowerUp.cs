@@ -6,6 +6,8 @@ public class PowerUp : MonoBehaviour
 {
     [SerializeField] float _speed = 3f;
     [SerializeField] int _powerUpID; // 1 = Laser PowerUp 2 = Shield PowerUp
+    [SerializeField] AudioClip _soundClip;
+
 
     void Update()
     {
@@ -23,6 +25,8 @@ public class PowerUp : MonoBehaviour
         {
             Player player = other.GetComponent<Player>();
 
+            AudioSource.PlayClipAtPoint(_soundClip, transform.position);
+
             if (player != null)
             {
                 switch(_powerUpID)
@@ -32,7 +36,6 @@ public class PowerUp : MonoBehaviour
                         break;
                     case 1:
                         player.ShieldPowerUp();
-                        Debug.Log("Shield Powerup!");
                         break;
                 }
             }
