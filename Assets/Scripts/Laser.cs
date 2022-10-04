@@ -14,12 +14,11 @@ public class Laser : MonoBehaviour
         {
             MoveUp();
         }
-        else
+        else if (_enemyDestoryed == false)
         {
             MoveDown();
         }
-
-        if (_enemyDestoryed)
+        else if (_enemyDestoryed == true)
         {
             Destroy(this.gameObject);
         }
@@ -42,15 +41,23 @@ public class Laser : MonoBehaviour
 
     void MoveDown()
     {
-        transform.Translate(Vector3.down * Time.deltaTime * 10f);
-
-        if (transform.position.y < -8f)
+        if (_enemyDestoryed == false)
         {
-            if (transform.parent != null)
-            {
-                Destroy(transform.parent.gameObject);
-            }
+            transform.Translate(Vector3.down * Time.deltaTime * 10f);
 
+            if (transform.position.y < -8f)
+            {
+                if (transform.parent != null)
+                {
+                    Destroy(transform.parent.gameObject);
+                }
+
+                Destroy(this.gameObject);
+            }
+        }
+        else
+        {
+            Debug.Log("Are we here yet?");
             Destroy(this.gameObject);
         }
     }
