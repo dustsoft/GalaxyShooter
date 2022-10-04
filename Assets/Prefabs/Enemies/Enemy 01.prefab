@@ -50,7 +50,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.014139652, y: 0.24885201}
+  m_Offset: {x: -0.014139652, y: 0.36336294}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -61,7 +61,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.9810748, y: 2.3600087}
+  m_Size: {x: 1.9810748, y: 2.130987}
   m_EdgeRadius: 0
 --- !u!50 &9115441977917792107
 Rigidbody2D:
@@ -98,14 +98,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 7654622760739129183}
   _enemyObject: {fileID: 8782224581499028050}
+  _enemyLaserPrefab: {fileID: 6548456188646186978, guid: 50dc26dbb28b44e04994cb3ed56680ef, type: 3}
   _explosionObject: {fileID: 152612954431224480}
   _laserImpactVFX: {fileID: 8209384249948126875}
   _enemyHitBox: {fileID: 8156443954941698119}
+  _fireRate: 3
   _enemyHitPoints: 5
   _hitFlashes: 4
   _player: {fileID: 0}
   _explosionSFX: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _audioSource: {fileID: 7503140583943576665}
+  _laserScript: {fileID: 4241545735773919806, guid: 50dc26dbb28b44e04994cb3ed56680ef, type: 3}
 --- !u!82 &7503140583943576665
 AudioSource:
   m_ObjectHideFlags: 0

@@ -6,20 +6,25 @@ public class EnemyA : MonoBehaviour
 {
     [SerializeField] SpriteRenderer _spriteRenderer;
     [SerializeField] GameObject _enemyObject;
+    [SerializeField] GameObject _enemyLaserPrefab;
     [SerializeField] GameObject _explosionObject;
     [SerializeField] GameObject _laserImpactVFX;
     [SerializeField] BoxCollider2D _enemyHitBox;
+    [SerializeField] float _fireRate = 3f;
     [SerializeField] int _enemyHitPoints = 5;
     [SerializeField] int _hitFlashes;
     [SerializeField] Player _player;
-
     [SerializeField] AudioClip _explosionSFX;
     [SerializeField] AudioSource _audioSource;
+    float _canFire = -1;
+    public bool _enemyIsDead = false;
 
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>();
+
 
         if (_audioSource == null)
         {
@@ -33,14 +38,31 @@ public class EnemyA : MonoBehaviour
 
     void Update()
     {
-        _spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>();
+        //_spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>();
+        EnemyMovement();
+        EnemyShooting();
 
-        transform.Translate(Vector3.down * Time.deltaTime * 5);
+        if (_enemyIsDead == true)
+        {
+            //Debug.Log("enemy dead");
+        }
+
+    }
+
+    void EnemyMovement()
+    {
+        transform.Translate(Vector3.down * Time.deltaTime * 2.75f);
 
         if (transform.position.y < -6.5f)
         {
             Destroy(this.gameObject);
-       }
+        }
+    }
+
+    void EnemyShooting()
+    {
+        StartCoroutine(EnemyShootingRoutine());
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -116,6 +138,7 @@ public class EnemyA : MonoBehaviour
 
     IEnumerator EnemyExplosion()
     {
+        _enemyIsDead = true;
         yield return null;
         _explosionObject.SetActive(true);
         _enemyObject.SetActive(false);
@@ -124,7 +147,32 @@ public class EnemyA : MonoBehaviour
         _enemyHitBox.GetComponent<BoxCollider2D>().enabled = false;
         yield return new WaitForSeconds(0.75f);
         yield return null;
+        GameObject laser = _enemyLaserPrefab;
+        laser.GetComponent<Laser>().EnemyDestroyed();
+        yield return null;
+        yield return null;
+        yield return null;
         Destroy(this.gameObject);
+    }
+
+    IEnumerator EnemyShootingRoutine()
+    {
+        if (Time.time > _canFire && _enemyIsDead == false)
+        {
+            _canFire = Time.time + _fireRate;
+
+            yield return new WaitForSeconds(1f);
+            var offset = new Vector3(0, -0.75f, 0);
+            GameObject laser = Instantiate(_enemyLaserPrefab, transform.position + offset, Quaternion.identity);
+            laser.GetComponent<Laser>().AssignEnemyLaser();
+            yield return new WaitForSeconds(0.25f);
+            laser = Instantiate(_enemyLaserPrefab, transform.position + offset, Quaternion.identity);
+            laser.GetComponent<Laser>().AssignEnemyLaser();
+            yield return new WaitForSeconds(0.25f);
+            laser = Instantiate(_enemyLaserPrefab, transform.position + offset, Quaternion.identity);
+            laser.GetComponent<Laser>().AssignEnemyLaser();
+        }
+
     }
     #endregion
 }
