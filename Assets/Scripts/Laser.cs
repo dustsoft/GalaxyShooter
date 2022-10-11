@@ -6,7 +6,8 @@ public class Laser : MonoBehaviour
 {
     [SerializeField] float _bulletSpeed;
     bool _isEnemyLaser = false;
-    bool _enemyDestoryed = false;
+
+
 
     void Update()
     {
@@ -14,17 +15,15 @@ public class Laser : MonoBehaviour
         {
             MoveUp();
         }
-        else if (_enemyDestoryed == false)
+        else
         {
             MoveDown();
         }
-        else if (_enemyDestoryed == true)
-        {
-            Destroy(this.gameObject);
-        }
+
+
     }
 
-    void MoveUp()
+    void MoveUp() // Laser for the Player
     {
         transform.Translate(Vector3.up * Time.deltaTime * _bulletSpeed * 1.5f);
 
@@ -39,25 +38,17 @@ public class Laser : MonoBehaviour
         }
     }
 
-    void MoveDown()
+    void MoveDown()  // Laser for the Enemy
     {
-        if (_enemyDestoryed == false)
-        {
-            transform.Translate(Vector3.down * Time.deltaTime * 10f);
+        transform.Translate(Vector3.down * Time.deltaTime * 10f);
 
-            if (transform.position.y < -8f)
+        if (transform.position.y < -8f)
+        {
+            if (transform.parent != null)
             {
-                if (transform.parent != null)
-                {
-                    Destroy(transform.parent.gameObject);
-                }
-
-                Destroy(this.gameObject);
+                Destroy(transform.parent.gameObject);
             }
-        }
-        else
-        {
-            Debug.Log("Are we here yet?");
+
             Destroy(this.gameObject);
         }
     }
@@ -67,9 +58,19 @@ public class Laser : MonoBehaviour
         _isEnemyLaser = true;
     }
 
-    public void EnemyDestroyed()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("We got here!!! BOYZ!");
-        _enemyDestoryed = true;
+        if (other.tag == "Player" && _isEnemyLaser == true)
+        {
+            Player player = other.GetComponent<Player>();
+
+            if (player != null)
+            {
+                player.Damage();
+                Destroy(this.gameObject);
+            }
+
+        }
     }
+
 }

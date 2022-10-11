@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4244696175340012005}
-  - component: {fileID: 118969027561731675}
+  - component: {fileID: 1795797877322310560}
   m_Layer: 0
   m_Name: LaserGraphic
   m_TagString: Laser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4244696175340012005
 Transform:
   m_ObjectHideFlags: 0
@@ -26,12 +26,12 @@ Transform:
   m_GameObject: {fileID: 6327744484339543339}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8239999, y: 0.3904999, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 998134385936765424}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &118969027561731675
+--- !u!212 &1795797877322310560
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 1498177520606753792}
   m_Layer: 0
   m_Name: Enemy 01 Laser 1
-  m_TagString: Laser
+  m_TagString: EnemyA Laser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,7 +184,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6548456188646186978}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

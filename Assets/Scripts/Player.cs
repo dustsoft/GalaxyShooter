@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     public GameObject _explosionPrefab;
     public Animator _animator;
 
+
     GameManager _gameManager;
     SpawnManager _spawnManager;
     UIManager _uiManager;
@@ -47,6 +48,7 @@ public class Player : MonoBehaviour
     bool _gameOver = false;
     bool _playerDeathRoutine = false;
     bool _canPlay = true;
+    bool _hitBox;
     #endregion
 
     void Start()
@@ -178,6 +180,7 @@ public class Player : MonoBehaviour
         }
 
         _canPlay = false;
+        _hitBox = GetComponent<CircleCollider2D>().enabled = false;
         _explosionPrefab.SetActive(true);
         _playerGraphic.SetActive(false);
         _lives--;
@@ -249,6 +252,7 @@ public class Player : MonoBehaviour
             _canPlay = true;
             _shieldGraphicPrefab.SetActive(true);
             yield return new WaitForSeconds(1f);
+            _hitBox = GetComponent<CircleCollider2D>().enabled = true;
             _shieldGraphicPrefab.SetActive(false);
             _playerDeathRoutine = false;
         }

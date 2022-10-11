@@ -147,11 +147,6 @@ public class EnemyA : MonoBehaviour
         _enemyHitBox.GetComponent<BoxCollider2D>().enabled = false;
         yield return new WaitForSeconds(0.75f);
         yield return null;
-        GameObject laser = _enemyLaserPrefab;
-        laser.GetComponent<Laser>().EnemyDestroyed();
-        yield return null;
-        yield return null;
-        yield return null;
         Destroy(this.gameObject);
     }
 
@@ -171,6 +166,18 @@ public class EnemyA : MonoBehaviour
             yield return new WaitForSeconds(0.25f);
             laser = Instantiate(_enemyLaserPrefab, transform.position + offset, Quaternion.identity);
             laser.GetComponent<Laser>().AssignEnemyLaser();
+        }
+
+        if (_enemyIsDead == true)
+        {
+            GameObject[] destroyEnemyLaser;
+
+            destroyEnemyLaser = GameObject.FindGameObjectsWithTag("EnemyA Laser");
+
+            for (int i = 0; i < destroyEnemyLaser.Length; i++)
+            {
+                Destroy(destroyEnemyLaser[i].gameObject);
+            }
         }
 
     }
