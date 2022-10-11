@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _gameOverText;
     [SerializeField] Image _livesImage;
     [SerializeField] Sprite[] _livesSprites;
+    [SerializeField] GameObject _gamePauseMenu;
+ 
     GameManager _gameManager;
     bool _finalChance = false;
 
@@ -29,6 +31,11 @@ public class UIManager : MonoBehaviour
     {
         _scoreText.text = playerScore.ToString();
         _highScoreText.text = highScore.ToString();
+    }
+
+    public void PauseMenu()
+    {
+        _gamePauseMenu.SetActive(true);
     }
 
     public void UpdateLives(int currentLives)

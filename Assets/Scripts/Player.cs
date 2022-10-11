@@ -49,6 +49,7 @@ public class Player : MonoBehaviour
     bool _playerDeathRoutine = false;
     bool _canPlay = true;
     bool _hitBox;
+    bool _gameIsPaused = false;
     #endregion
 
     void Start()
@@ -104,7 +105,23 @@ public class Player : MonoBehaviour
             PlayerPrefs.SetInt("_highScoreValue", _scoreValue);
             _gameManager.RestartLevel();
 
-         }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && _gameIsPaused == false)
+        {
+            _canPlay = false;
+            _gameIsPaused = true;
+            _uiManager.PauseMenu();
+            _gameManager.PauseGame();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && _gameIsPaused == true)
+        {
+            _gameManager.UnPauseGame();
+            _canPlay = true;
+            _gameIsPaused = false;
+     
+        }
+
         #endregion
     }
 
