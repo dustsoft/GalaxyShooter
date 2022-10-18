@@ -38,6 +38,11 @@ public class UIManager : MonoBehaviour
         _gamePauseMenu.SetActive(true);
     }
 
+    public void UnPauseMenu()
+    {
+        _gamePauseMenu.SetActive(false);
+    }
+
     public void UpdateLives(int currentLives)
     {
 

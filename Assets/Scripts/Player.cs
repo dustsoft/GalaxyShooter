@@ -107,6 +107,7 @@ public class Player : MonoBehaviour
 
         }
 
+        // Pause Game Input
         if (Input.GetKeyDown(KeyCode.Escape) && _gameIsPaused == false)
         {
             _canPlay = false;
@@ -116,6 +117,7 @@ public class Player : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && _gameIsPaused == true)
         {
+            _uiManager.UnPauseMenu();
             _gameManager.UnPauseGame();
             _canPlay = true;
             _gameIsPaused = false;
