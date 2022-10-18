@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
         if (currentLives == -1)
         {
             _livesImage.sprite = _livesSprites[0];
-            GameOverSequnce();
+            GameOverSequence();
         }
         else
         {
@@ -62,7 +62,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void GameOverSequnce()
+    public void GameOverSequence()
     {
         _gameOverText.gameObject.SetActive(true);
         StartCoroutine(GameOverTextFlicker());

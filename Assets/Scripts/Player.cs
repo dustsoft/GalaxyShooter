@@ -124,6 +124,11 @@ public class Player : MonoBehaviour
      
         }
 
+        if (_gameIsPaused == true && Input.GetKeyDown(KeyCode.Q))
+        {
+            _gameManager.QuitGame();
+        }
+
         #endregion
     }
 
@@ -215,7 +220,7 @@ public class Player : MonoBehaviour
             Time.timeScale = 0.25f;
             _explosionPrefab.SetActive(true);
             _playerGraphic.SetActive(false);
-            _uiManager.GameOverSequnce();
+            _uiManager.GameOverSequence();
             _playerDeathRoutine = true;
             StartCoroutine(PlayerGameOverRoutine());
 
