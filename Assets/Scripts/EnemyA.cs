@@ -83,8 +83,8 @@ public class EnemyA : MonoBehaviour
         #endregion
 
         #region Laser Collision
-        if (other.tag == "Laser") // Laser Collides with Enemy (Really the only no player object in the game).
-        {                         // May need to change later on.
+        if (other.tag == "Laser")
+        {                         
             Destroy(other.gameObject);
 
             if (_spriteRenderer != null)
