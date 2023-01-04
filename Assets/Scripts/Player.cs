@@ -35,7 +35,6 @@ public class Player : MonoBehaviour
     public GameObject _explosionPrefab;
     public Animator _animator;
 
-
     GameManager _gameManager;
     SpawnManager _spawnManager;
     UIManager _uiManager;
@@ -54,9 +53,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         _audioSource = GetComponent<AudioSource>();
-
         if (_audioSource == null)
         {
             Debug.LogError("AudioSource on the player is NULL");
@@ -66,13 +63,13 @@ public class Player : MonoBehaviour
             _audioSource.clip = _laserSFX;
         }
 
+        _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL");
         }
 
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-
         if (_uiManager == null)
         {
             Debug.LogError("The UI Manager is NULL");
