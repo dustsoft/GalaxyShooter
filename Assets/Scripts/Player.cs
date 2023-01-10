@@ -74,12 +74,12 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("The UI Manager is NULL");
         }
+
+        _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     void Update()
     {
-        _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-
         ScreenClamp();
 
         #region BUTTON & KEY INPUTS
