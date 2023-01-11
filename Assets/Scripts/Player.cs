@@ -10,8 +10,11 @@ public class Player : MonoBehaviour
     [Header("Player Info")]
     [Tooltip("How fast the player's movement speed is.")]
     [SerializeField] float _playerSpeed = 5f;
+    [Tooltip("How fast the player's focus speed is.")]
+    [SerializeField] float _playerFocusSpeed = 2f;
 
     [SerializeField] int _lives = 3;
+    public int _shieldHP;
 
     [Tooltip("The player laser fire rate.")]
     [SerializeField] float _fireRate = 1.5f;
@@ -49,6 +52,7 @@ public class Player : MonoBehaviour
     bool _canPlay = true;
     bool _hitBox;
     bool _gameIsPaused = false;
+    bool _focusMode = false;
     #endregion
 
     void Start()
@@ -86,6 +90,14 @@ public class Player : MonoBehaviour
 
         // Player Movement Input
         PlayerMovement();
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _focusMode = true;
+        }
+        else
+        {
+            _focusMode = false;
+        }
 
         // Player Shooting Input
         if (Input.GetKey(KeyCode.Space) && Time.time > _canFire && _canPlay == true && _gameOver == false)
@@ -157,15 +169,24 @@ public class Player : MonoBehaviour
 
     void PlayerMovement()
     {
-        if (_canPlay == true && _gameOver == false) // Player can only move ship if canPlay is true.
+        // Player can only move ship if canPlay is true.
+        if (_canPlay == true && _gameOver == false)
         {
             _animator.SetBool("xIsIdle", true);
 
             Vector2 movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            transform.Translate(movement * _playerSpeed * Time.deltaTime);
+
+            if (_focusMode == false)
+            {
+                transform.Translate(movement * _playerSpeed * Time.deltaTime);
+            }
+            else if (_focusMode == true)
+            {
+                transform.Translate(movement * _playerFocusSpeed * Time.deltaTime);
+            }
+
 
             _animator.SetFloat("xMovement", Input.GetAxisRaw("Horizontal"));
-
 
             if (Input.GetAxisRaw("Horizontal") != 0f)
             {
@@ -188,15 +209,24 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        if (_playerDeathRoutine == true && _canPlay == true) // Invincibility period after losing a life
+        if (_playerDeathRoutine == true && _canPlay == true)
         {
             return;
         }
 
-        if (_shieldPowerupActive == true) // One Free Hit! via Shield Powerup
+        if (_shieldPowerupActive == true && _shieldHP > 1)
         {
-            _shieldPowerupActive = false;
+            _shieldHP = _shieldHP - 1;
+            _uiManager.UpdateShieldsUI(_shieldHP);
+            return;
+        }
+
+        if (_shieldPowerupActive == true && _shieldHP == 1)
+        {
+            _shieldHP = _shieldHP - 1;
             _shieldGraphicPrefab.SetActive(false);
+            _uiManager.UpdateShieldsUI(_shieldHP);
+            _shieldPowerupActive = false;
             return;
         }
 
@@ -238,11 +268,14 @@ public class Player : MonoBehaviour
 
     public void ShieldPowerUp()
     {
-        if (_shieldPowerupActive == false)
-        {
-            _shieldPowerupActive = true;
-            _shieldGraphicPrefab.SetActive(true);
-        }
+        _shieldPowerupActive = true;
+        _shieldHP = 3;
+        _uiManager.UpdateShieldsUI(_shieldHP);
+        _shieldGraphicPrefab.SetActive(true);
+
+        //if (_shieldPowerupActive == false)
+        //{
+        //}
     }
 
     public void AddScore()

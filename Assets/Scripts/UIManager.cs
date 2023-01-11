@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _gameOverText;
     [SerializeField] Image _livesImage;
     [SerializeField] Sprite[] _livesSprites;
+    [SerializeField] Image _shieldsImage;
+    [SerializeField] Sprite[] _shieldsSprite;
     [SerializeField] GameObject _gamePauseMenu;
  
     GameManager _gameManager;
@@ -60,6 +62,11 @@ public class UIManager : MonoBehaviour
         {
             FinalWarningSequnce();
         }
+    }
+
+    public void UpdateShieldsUI(int currentShieldHP)
+    {
+        _shieldsImage.sprite = _shieldsSprite[currentShieldHP];
     }
 
     public void GameOverSequence()
