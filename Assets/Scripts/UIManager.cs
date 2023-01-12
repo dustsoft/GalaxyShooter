@@ -10,10 +10,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _highScoreText;
     [SerializeField] TextMeshProUGUI _finalWarningText;
     [SerializeField] TextMeshProUGUI _gameOverText;
+
     [SerializeField] TextMeshProUGUI _ammoText;
+
     [SerializeField] Image _livesImage;
     [SerializeField] Sprite[] _livesSprites;
-
     [SerializeField] Image _shieldsImage;
     [SerializeField] Sprite[] _shieldsSprite;
 

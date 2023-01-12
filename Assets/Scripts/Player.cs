@@ -154,7 +154,6 @@ public class Player : MonoBehaviour
 
         if (_laserAmmo > 0)
         {
-            // Switch is used for different laser powerup levels.
             switch (_powerLevel)
             {
                 case 0:
@@ -304,7 +303,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            _powerLevel = 0; //
+            _powerLevel = 0;
             AddScore();
         }
 
