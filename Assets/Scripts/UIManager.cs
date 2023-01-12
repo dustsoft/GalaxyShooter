@@ -12,8 +12,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _gameOverText;
     [SerializeField] Image _livesImage;
     [SerializeField] Sprite[] _livesSprites;
+
     [SerializeField] Image _shieldsImage;
     [SerializeField] Sprite[] _shieldsSprite;
+
+
     [SerializeField] GameObject _gamePauseMenu;
  
     GameManager _gameManager;

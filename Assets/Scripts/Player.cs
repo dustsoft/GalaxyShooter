@@ -14,7 +14,8 @@ public class Player : MonoBehaviour
     [SerializeField] float _playerFocusSpeed = 2f;
 
     [SerializeField] int _lives = 3;
-    public int _shieldHP;
+
+    [SerializeField] int _shieldHP;
 
     [Tooltip("The player laser fire rate.")]
     [SerializeField] float _fireRate = 1.5f;
@@ -239,7 +240,8 @@ public class Player : MonoBehaviour
         _playerDeathRoutine = true;
         StartCoroutine(PlayerDeathRoutine());
 
-        if (_lives < 0) // Game Over when losing all lives
+        // Game Over when losing all lives
+        if (_lives < 0) 
         {
             _canPlay = false;
             _gameOver = true;
@@ -272,10 +274,6 @@ public class Player : MonoBehaviour
         _shieldHP = 3;
         _uiManager.UpdateShieldsUI(_shieldHP);
         _shieldGraphicPrefab.SetActive(true);
-
-        //if (_shieldPowerupActive == false)
-        //{
-        //}
     }
 
     public void AddScore()
