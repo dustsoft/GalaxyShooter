@@ -304,7 +304,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            _powerLevel = 0;
+            _powerLevel = 0; //
             AddScore();
         }
 
