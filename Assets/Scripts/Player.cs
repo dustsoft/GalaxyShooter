@@ -28,6 +28,10 @@ public class Player : MonoBehaviour
     [Tooltip("Power Level 0 is the default laser power.")]
     [SerializeField] int _powerLevel = 0;
 
+    [SerializeField] int _laserAmmo = 50;
+    [SerializeField] int _maxAmmo = 50;
+    [SerializeField] int _ammoRefillPowerup = 25;
+
     [Tooltip("Drag laser Prefabs here used for laser powerup levels.")]
     [SerializeField] GameObject[] _laserPrefabs;
 
@@ -45,6 +49,7 @@ public class Player : MonoBehaviour
 
     [Header("Audio FX")]
     [SerializeField] AudioClip _laserSFX;
+    [SerializeField] AudioClip _emptySFX;
     [SerializeField] AudioSource _audioSource;
 
     bool _shieldPowerupActive = false;
@@ -86,6 +91,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         ScreenClamp();
+        LaserAmmo();
 
         #region BUTTON & KEY INPUTS
 
@@ -125,6 +131,7 @@ public class Player : MonoBehaviour
             _uiManager.PauseMenu();
             _gameManager.PauseGame();
         }
+
         else if (Input.GetKeyDown(KeyCode.Escape) && _gameIsPaused == true)
         {
             _uiManager.UnPauseMenu();
@@ -144,27 +151,40 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-        switch (_powerLevel)
-        {
-            case 0:
-                _canFire = Time.time + _fireRate * 0.085f;
-                Instantiate(_laserPrefabs[0], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
-                break;
-            case 1:
-                _canFire = Time.time + _fireRate * 0.085f;
-                Instantiate(_laserPrefabs[1], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
-                break;
-            case 2:
-                _canFire = Time.time + _fireRate * 0.085f;
-                Instantiate(_laserPrefabs[2], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
-                break;
-            case 3:
-                _canFire = Time.time + _fireRate * 0.085f;
-                Instantiate(_laserPrefabs[3], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
-                break;
-        } // Switch is used for different laser powerup levels.
 
-        _audioSource.Play();
+        if (_laserAmmo > 0)
+        {
+            // Switch is used for different laser powerup levels.
+            switch (_powerLevel)
+            {
+                case 0:
+                    _canFire = Time.time + _fireRate * 0.085f;
+                    Instantiate(_laserPrefabs[0], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+                    break;
+                case 1:
+                    _canFire = Time.time + _fireRate * 0.085f;
+                    Instantiate(_laserPrefabs[1], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+                    break;
+                case 2:
+                    _canFire = Time.time + _fireRate * 0.085f;
+                    Instantiate(_laserPrefabs[2], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+                    break;
+                case 3:
+                    _canFire = Time.time + _fireRate * 0.085f;
+                    Instantiate(_laserPrefabs[3], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+                    break;
+            }
+
+            _audioSource.clip = _laserSFX;
+            _audioSource.Play();
+            _laserAmmo = _laserAmmo - 1;
+            _uiManager.UpdateAmmo(_laserAmmo);
+        }
+        else if (_laserAmmo == 0)
+        {
+            _audioSource.clip = _emptySFX;
+            _audioSource.Play();
+        }
 
     }
 
@@ -256,16 +276,41 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void LaserAmmo()
+    {
+        if (_laserAmmo < 0)
+        {
+            _laserAmmo = 0;
+        }
+
+        if (_laserAmmo > _maxAmmo)
+        {
+            _laserAmmo = _maxAmmo;
+        }
+    }
+
     public void LaserPowerUp()
     {
-        if (_powerLevel < 3)
+        if (_laserAmmo > 0)
         {
-            _powerLevel++;
+            if (_powerLevel < 3)
+            {
+                _powerLevel++;
+            }
+            else
+            {
+                AddScore();
+            }
         }
         else
         {
+            _powerLevel = 0;
             AddScore();
         }
+
+        _laserAmmo = _laserAmmo + _ammoRefillPowerup;
+        LaserAmmo();
+        _uiManager.UpdateAmmo(_laserAmmo);
     }
 
     public void ShieldPowerUp()
@@ -300,6 +345,9 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(0, -4, 0);
             _explosionPrefab.SetActive(false);
             _powerLevel = 0;
+            _laserAmmo = _maxAmmo;
+            LaserAmmo();
+            _uiManager.UpdateAmmo(_laserAmmo);
             _playerGraphic.SetActive(true);
             _canPlay = true;
             _shieldGraphicPrefab.SetActive(true);

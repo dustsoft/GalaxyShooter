@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _highScoreText;
     [SerializeField] TextMeshProUGUI _finalWarningText;
     [SerializeField] TextMeshProUGUI _gameOverText;
+    [SerializeField] TextMeshProUGUI _ammoText;
     [SerializeField] Image _livesImage;
     [SerializeField] Sprite[] _livesSprites;
 
@@ -36,6 +37,11 @@ public class UIManager : MonoBehaviour
     {
         _scoreText.text = playerScore.ToString();
         _highScoreText.text = highScore.ToString();
+    }
+
+    public void UpdateAmmo(int ammo)
+    {
+        _ammoText.text = ammo.ToString();
     }
 
     public void PauseMenu()

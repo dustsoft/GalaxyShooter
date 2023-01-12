@@ -552,12 +552,12 @@ GameObject:
   - component: {fileID: 110253230}
   - component: {fileID: 110253229}
   m_Layer: 5
-  m_Name: Bomb Value
+  m_Name: Ammo Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &110253228
 RectTransform:
   m_ObjectHideFlags: 0
@@ -575,9 +575,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 113.9, y: 165.0222}
+  m_AnchoredPosition: {x: -227, y: -28.789}
   m_SizeDelta: {x: 33.3044, y: 17.5779}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.499999, y: 0.4999993}
 --- !u!114 &110253229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -598,7 +598,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 3
+  m_text: '50
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -5707,6 +5709,9 @@ MonoBehaviour:
   _scoreValue: 0
   _highScoreValue: 0
   _powerLevel: 0
+  _laserAmmo: 50
+  _maxAmmo: 50
+  _ammoRefillPowerup: 25
   _laserPrefabs:
   - {fileID: 677189058016842086, guid: c491dd3c15cca472dab9a93591949053, type: 3}
   - {fileID: 496636113667033124, guid: 82634b30c56144682bd0ac498c0b52cb, type: 3}
@@ -5717,6 +5722,7 @@ MonoBehaviour:
   _explosionPrefab: {fileID: 5516300472799959706}
   _animator: {fileID: 1868624029}
   _laserSFX: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _emptySFX: {fileID: 8300000, guid: 4026331860f73400a9b5c1c8cc3505b6, type: 3}
   _audioSource: {fileID: 580639296}
 --- !u!82 &580639296
 AudioSource:
@@ -5860,12 +5866,12 @@ GameObject:
   - component: {fileID: 627807860}
   - component: {fileID: 627807859}
   m_Layer: 5
-  m_Name: Bomb Text
+  m_Name: Ammo Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &627807858
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5881,11 +5887,11 @@ RectTransform:
   m_Father: {fileID: 1868072041}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 47.3, y: 165.0222}
-  m_SizeDelta: {x: 48.2893, y: 17.577896}
-  m_Pivot: {x: 0, y: 1}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 122.9, y: -28.789}
+  m_SizeDelta: {x: 48.289307, y: 17.577896}
+  m_Pivot: {x: 0.5000007, y: 0.4999994}
 --- !u!114 &627807859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5906,7 +5912,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BOMB
+  m_text: AMMO
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -6104,6 +6110,7 @@ MonoBehaviour:
   _highScoreText: {fileID: 988182326}
   _finalWarningText: {fileID: 1923285487}
   _gameOverText: {fileID: 1663588729}
+  _ammoText: {fileID: 110253229}
   _livesImage: {fileID: 1586531231}
   _livesSprites:
   - {fileID: 21300000, guid: ba53e111f0125654cabfd4eefaf3a657, type: 3}
@@ -12250,9 +12257,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 190, y: -20}
+  m_AnchoredPosition: {x: 227.12785, y: -28.863754}
   m_SizeDelta: {x: 74.2548, y: 17.7271}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.4999998, y: 0.49999875}
 --- !u!114 &1795597521
 MonoBehaviour:
   m_ObjectHideFlags: 0
