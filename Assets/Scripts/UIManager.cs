@@ -6,6 +6,7 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    #region VARIABLES
     [SerializeField] TextMeshProUGUI _scoreText;
     [SerializeField] TextMeshProUGUI _highScoreText;
     [SerializeField] TextMeshProUGUI _finalWarningText;
@@ -20,9 +21,10 @@ public class UIManager : MonoBehaviour
 
 
     [SerializeField] GameObject _gamePauseMenu;
- 
+
     GameManager _gameManager;
     bool _finalChance = false;
+    #endregion
 
     void Start()
     {

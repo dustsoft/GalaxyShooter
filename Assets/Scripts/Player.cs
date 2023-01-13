@@ -28,12 +28,13 @@ public class Player : MonoBehaviour
     [Tooltip("Power Level 0 is the default laser power.")]
     [SerializeField] int _powerLevel = 0;
 
-    [SerializeField] int _laserAmmo = 50;
-    [SerializeField] int _maxAmmo = 50;
+    int _laserAmmo;
+    [SerializeField] int _maxAmmo;
     [SerializeField] int _ammoRefillPowerup = 25;
 
     [Tooltip("Drag laser Prefabs here used for laser powerup levels.")]
     [SerializeField] GameObject[] _laserPrefabs;
+    [SerializeField] GameObject[] _focusLaserPrefabs;
 
     [Tooltip("Drag shield Prefabs here for shields powerup VFX.")]
     [SerializeField] GameObject _shieldGraphicPrefab;
@@ -43,13 +44,17 @@ public class Player : MonoBehaviour
     public GameObject _explosionPrefab;
     public Animator _animator;
 
+    [Header ("Scripts")]
     GameManager _gameManager;
     SpawnManager _spawnManager;
     UIManager _uiManager;
+    FocusBar _focusBar;
+    CameraShake _cameraShake;
 
     [Header("Audio FX")]
     [SerializeField] AudioClip _laserSFX;
     [SerializeField] AudioClip _emptySFX;
+    [SerializeField] AudioClip _explosionSFX;
     [SerializeField] AudioSource _audioSource;
 
     bool _shieldPowerupActive = false;
@@ -63,10 +68,12 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        _laserAmmo = _maxAmmo;
+
         _audioSource = GetComponent<AudioSource>();
         if (_audioSource == null)
         {
-            Debug.LogError("AudioSource on the player is NULL");
+            Debug.LogError("AudioSource on the player is NULL!");
         }
         else
         {
@@ -76,22 +83,61 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         if (_spawnManager == null)
         {
-            Debug.LogError("The Spawn Manager is NULL");
+            Debug.LogError("The Spawn Manager is NULL!");
         }
 
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         if (_uiManager == null)
         {
-            Debug.LogError("The UI Manager is NULL");
+            Debug.LogError("The UI Manager is NULL!");
         }
 
         _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        if (_gameManager == null)
+        {
+            Debug.Log("The Game Manager is NULL!");
+        }
+
+        _focusBar = GameObject.Find("Focus Mode").GetComponent<FocusBar>();
+        if (_focusBar == null)
+        {
+            Debug.Log("The Focus Bar is NULL!");
+        }
+
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+        if (_cameraShake == null)
+        {
+            Debug.Log("The Camera Shake is NULL!");
+        }
     }
 
     void Update()
     {
         ScreenClamp();
         LaserAmmo();
+
+        #region FOCUS MODE BAR
+
+        if (_focusMode == false)
+        {
+            _focusMode = false;
+            _focusBar.RefillBar();
+        }
+
+        if (_focusBar.current == 0)
+        {
+            if (_focusMode == true)
+            {
+                _focusMode = false;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        #endregion
+
 
         #region BUTTON & KEY INPUTS
 
@@ -154,24 +200,51 @@ public class Player : MonoBehaviour
 
         if (_laserAmmo > 0)
         {
-            switch (_powerLevel)
+            // Normal Mode
+            if (_focusMode == false)
             {
-                case 0:
-                    _canFire = Time.time + _fireRate * 0.085f;
-                    Instantiate(_laserPrefabs[0], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
-                    break;
-                case 1:
-                    _canFire = Time.time + _fireRate * 0.085f;
-                    Instantiate(_laserPrefabs[1], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
-                    break;
-                case 2:
-                    _canFire = Time.time + _fireRate * 0.085f;
-                    Instantiate(_laserPrefabs[2], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
-                    break;
-                case 3:
-                    _canFire = Time.time + _fireRate * 0.085f;
-                    Instantiate(_laserPrefabs[3], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
-                    break;
+                switch (_powerLevel)
+                {
+                    case 0:
+                        _canFire = Time.time + _fireRate * 0.085f;
+                        Instantiate(_laserPrefabs[0], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+                        break;
+                    case 1:
+                        _canFire = Time.time + _fireRate * 0.085f;
+                        Instantiate(_laserPrefabs[1], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+                        break;
+                    case 2:
+                        _canFire = Time.time + _fireRate * 0.085f;
+                        Instantiate(_laserPrefabs[2], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+                        break;
+                    case 3:
+                        _canFire = Time.time + _fireRate * 0.085f;
+                        Instantiate(_laserPrefabs[3], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+                        break;
+                }
+            }
+            // Focus Mode
+            else
+            {
+                switch (_powerLevel)
+                {
+                    case 0:
+                        _canFire = Time.time + _fireRate * 0.085f;
+                        Instantiate(_focusLaserPrefabs[0], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+                        break;
+                    case 1:
+                        _canFire = Time.time + _fireRate * 0.085f;
+                        Instantiate(_focusLaserPrefabs[1], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+                        break;
+                    case 2:
+                        _canFire = Time.time + _fireRate * 0.085f;
+                        Instantiate(_focusLaserPrefabs[2], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+                        break;
+                    case 3:
+                        _canFire = Time.time + _fireRate * 0.085f;
+                        Instantiate(_focusLaserPrefabs[3], transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+                        break;
+                }
             }
 
             _audioSource.clip = _laserSFX;
@@ -196,15 +269,17 @@ public class Player : MonoBehaviour
 
             Vector2 movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
+            // Normal Mode
             if (_focusMode == false)
             {
                 transform.Translate(movement * _playerSpeed * Time.deltaTime);
             }
+            // Focus Mode
             else if (_focusMode == true)
             {
+                _focusBar.AdjustFocusBar();
                 transform.Translate(movement * _playerFocusSpeed * Time.deltaTime);
             }
-
 
             _animator.SetFloat("xMovement", Input.GetAxisRaw("Horizontal"));
 
@@ -251,6 +326,12 @@ public class Player : MonoBehaviour
         }
 
         _canPlay = false;
+
+        _audioSource.clip = _explosionSFX;
+        _audioSource.Play();
+
+        _cameraShake.CameraShakeMethod();
+
         _hitBox = GetComponent<CircleCollider2D>().enabled = false;
         _explosionPrefab.SetActive(true);
         _playerGraphic.SetActive(false);
@@ -320,6 +401,19 @@ public class Player : MonoBehaviour
         _shieldGraphicPrefab.SetActive(true);
     }
 
+    public void ExtraLivePowerUp()
+    {
+        if (_lives >= 0 && _lives != 3)
+        {
+            _lives = _lives + 1;
+            _uiManager.UpdateLives(_lives);
+        }
+        else 
+        {
+            AddScore();
+        }
+    }
+
     public void AddScore()
     {
         _scoreValue += 50; // May need to use variable in future for point scaling
@@ -343,10 +437,12 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(1.25f);
             transform.position = new Vector3(0, -4, 0);
             _explosionPrefab.SetActive(false);
+
             _powerLevel = 0;
             _laserAmmo = _maxAmmo;
             LaserAmmo();
             _uiManager.UpdateAmmo(_laserAmmo);
+
             _playerGraphic.SetActive(true);
             _canPlay = true;
             _shieldGraphicPrefab.SetActive(true);
