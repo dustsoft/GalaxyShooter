@@ -5830,10 +5830,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerSpeed: 7
-  _playerFocusSpeed: 1
+  _playerFocusSpeed: 2
   _lives: 3
   _shieldHP: 0
-  _fireRate: 2
+  _fireRate: 1.25
   _scoreValue: 0
   _highScoreValue: 0
   _powerLevel: 0
@@ -12549,7 +12549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maximum: 100
   current: 100
-  fillRate: 10
+  fillRate: 5
   mask: {fileID: 1618386146}
   _focusMode: {fileID: 580639295}
 --- !u!114 &1670506799

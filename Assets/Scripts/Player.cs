@@ -179,6 +179,10 @@ public class Player : MonoBehaviour
                 _uiManager.ChangeFillBarColorBlue();
                 _energyEmpty = false;
             }
+            else
+            {
+                _focusBar.EmptyRefillBar();
+            }
         }
 
         if (Input.GetKey(KeyCode.LeftShift) && _energyEmpty == false)
@@ -278,7 +282,7 @@ public class Player : MonoBehaviour
                 _focusBar.AdjustFocusBar();
                 transform.Translate(movement * _playerFocusSpeed * Time.deltaTime);
             }
-            else
+            else if (_energyEmpty == false)
             {
                 _focusBar.RefillBar();
             }
@@ -331,8 +335,9 @@ public class Player : MonoBehaviour
 
         _audioSource.clip = _explosionSFX;
         _audioSource.Play();
-
         _cameraShake.CameraShakeMethod();
+
+        _focusBar.current = 100;
 
         _hitBox = GetComponent<CircleCollider2D>().enabled = false;
         _explosionPrefab.SetActive(true);

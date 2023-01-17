@@ -44,8 +44,13 @@ public class FocusBar : MonoBehaviour
     {
         if (current < maximum)
         {
-            current = current + 0.25f * Time.deltaTime * 10f * fillRate;
+            current = current + 0.55f * Time.deltaTime * 10f * fillRate;
         }
+    }
+
+    public void EmptyRefillBar()
+    {
+        current = current + 0.25f * Time.deltaTime * 10f * fillRate;
     }
 
     public void AdjustFocusBar()
