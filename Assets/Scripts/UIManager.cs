@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _highScoreText;
     [SerializeField] TextMeshProUGUI _finalWarningText;
     [SerializeField] TextMeshProUGUI _gameOverText;
-
     [SerializeField] TextMeshProUGUI _ammoText;
 
     [SerializeField] Image _livesImage;
@@ -19,7 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image _shieldsImage;
     [SerializeField] Sprite[] _shieldsSprite;
 
-
+    [SerializeField] GameObject _fillBar;
     [SerializeField] GameObject _gamePauseMenu;
 
     GameManager _gameManager;
@@ -34,6 +33,16 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("GAME MANAGER IS NULL");
         }
+    }
+
+    public void ChangeFillBarColorRed()
+    {
+        _fillBar.GetComponent<Image>().color = new Color32(255, 0, 41, 255);
+    }
+
+    public void ChangeFillBarColorBlue()
+    {
+        _fillBar.GetComponent<Image>().color = new Color32(134, 223, 255, 255);
     }
 
     public void UpdateScore(int playerScore, int highScore)

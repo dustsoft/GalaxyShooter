@@ -63,7 +63,8 @@ public class Player : MonoBehaviour
     bool _canPlay = true;
     bool _hitBox;
     bool _gameIsPaused = false;
-    bool _focusMode = false;
+    public bool _focusMode = false;
+    public bool _energyEmpty = false; 
     #endregion
 
     void Start()
@@ -115,42 +116,10 @@ public class Player : MonoBehaviour
     {
         ScreenClamp();
         LaserAmmo();
-
-        #region FOCUS MODE BAR
-
-        if (_focusMode == false)
-        {
-            _focusMode = false;
-            _focusBar.RefillBar();
-        }
-
-        if (_focusBar.current == 0)
-        {
-            if (_focusMode == true)
-            {
-                _focusMode = false;
-            }
-            else
-            {
-                return;
-            }
-        }
-
-        #endregion
-
+        FocusMode();
+        PlayerMovement();
 
         #region BUTTON & KEY INPUTS
-
-        // Player Movement Input
-        PlayerMovement();
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            _focusMode = true;
-        }
-        else
-        {
-            _focusMode = false;
-        }
 
         // Player Shooting Input
         if (Input.GetKey(KeyCode.Space) && Time.time > _canFire && _canPlay == true && _gameOver == false)
@@ -195,6 +164,33 @@ public class Player : MonoBehaviour
         #endregion
     }
 
+    public void FocusMode()
+    {
+        if (_focusBar.current < 1)
+        {
+            _energyEmpty = true;
+            _uiManager.ChangeFillBarColorRed();
+        }
+
+        if (_energyEmpty == true)
+        {
+            if (_focusBar.current == 100)
+            {
+                _uiManager.ChangeFillBarColorBlue();
+                _energyEmpty = false;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) && _energyEmpty == false)
+        {
+            _focusMode = true;
+        }
+        else
+        {
+            _focusMode = false;
+        }
+    }
+
     void FireLaser()
     {
 
@@ -223,8 +219,9 @@ public class Player : MonoBehaviour
                         break;
                 }
             }
+
             // Focus Mode
-            else
+            if (_focusMode == true)
             {
                 switch (_powerLevel)
                 {
@@ -252,6 +249,7 @@ public class Player : MonoBehaviour
             _laserAmmo = _laserAmmo - 1;
             _uiManager.UpdateAmmo(_laserAmmo);
         }
+
         else if (_laserAmmo == 0)
         {
             _audioSource.clip = _emptySFX;
@@ -262,23 +260,27 @@ public class Player : MonoBehaviour
 
     void PlayerMovement()
     {
-        // Player can only move ship if canPlay is true.
         if (_canPlay == true && _gameOver == false)
         {
             _animator.SetBool("xIsIdle", true);
 
             Vector2 movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-            // Normal Mode
+            // NORMAL MOVE SPEED - DEFAULT
             if (_focusMode == false)
             {
                 transform.Translate(movement * _playerSpeed * Time.deltaTime);
             }
-            // Focus Mode
-            else if (_focusMode == true)
+
+            // FOCUS MOVE SPEED
+            if (_focusMode == true)
             {
                 _focusBar.AdjustFocusBar();
                 transform.Translate(movement * _playerFocusSpeed * Time.deltaTime);
+            }
+            else
+            {
+                _focusBar.RefillBar();
             }
 
             _animator.SetFloat("xMovement", Input.GetAxisRaw("Horizontal"));
