@@ -5853,9 +5853,9 @@ MonoBehaviour:
   _playerGraphic: {fileID: 1868624027}
   _explosionPrefab: {fileID: 5516300472799959706}
   _animator: {fileID: 1868624029}
-  _laserSFX: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _laserSFX: {fileID: 8300000, guid: 6a0311c940f357c499e3efbdda549a0a, type: 3}
   _emptySFX: {fileID: 8300000, guid: 4026331860f73400a9b5c1c8cc3505b6, type: 3}
-  _explosionSFX: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
+  _explosionSFX: {fileID: 8300000, guid: 114b363079413fd42a2b0b3e640e460d, type: 3}
   _audioSource: {fileID: 580639296}
   _focusMode: 0
   _energyEmpty: 0
@@ -5871,7 +5871,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.83
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -13209,13 +13209,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8584cc05f854f4d9393de8a8fceac8c7, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.59
   m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 92
+  Priority: 146
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
