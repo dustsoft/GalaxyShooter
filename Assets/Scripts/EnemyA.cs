@@ -19,8 +19,11 @@ public class EnemyA : MonoBehaviour
     float _canFire = -1;
     public bool _enemyIsDead = false;
 
+    [SerializeField] SpawnManager _spawnManager;
+
     private void Start()
     {
+        _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         _audioSource = GetComponent<AudioSource>();
         _player = GameObject.Find("Player").GetComponent<Player>();
         _spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>();
@@ -38,22 +41,53 @@ public class EnemyA : MonoBehaviour
 
     void Update()
     {
-        //_spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>();
         EnemyMovement();
         EnemyShooting();
-
-        if (_enemyIsDead == true)
-        {
-            //Debug.Log("enemy dead");
-        }
-
     }
 
     void EnemyMovement()
     {
+        if (_spawnManager._enemyMoveSetID == 0)
+        {
+            StraightDown();
+        }
+
+        if (_spawnManager._enemyMoveSetID == 1)
+        {
+            FromLeft();
+        }
+
+        if (_spawnManager._enemyMoveSetID == 2)
+        {
+            FromRight();
+        }
+    }
+
+    void StraightDown()
+    {
         transform.Translate(Vector3.down * Time.deltaTime * 2.75f);
 
         if (transform.position.y < -6.5f)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    void FromLeft()
+    {
+        transform.Translate(Vector3.right * Time.deltaTime * 2.75f);
+
+        if (transform.position.x > 7f)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    void FromRight()
+    {
+        transform.Translate(Vector3.left * Time.deltaTime * 2.75f);
+
+        if (transform.position.x < -7f)
         {
             Destroy(this.gameObject);
         }
@@ -139,11 +173,15 @@ public class EnemyA : MonoBehaviour
     IEnumerator EnemyExplosion()
     {
         _enemyIsDead = true;
+        _spawnManager.enemyDestroyedCount = _spawnManager.enemyDestroyedCount + 1;
         yield return null;
         _explosionObject.SetActive(true);
         _enemyObject.SetActive(false);
         yield return null;
+
+        _audioSource.pitch = Random.Range(0.8f, 1.08f);
         _audioSource.Play();
+
         _enemyHitBox.GetComponent<BoxCollider2D>().enabled = false;
         yield return new WaitForSeconds(0.75f);
         yield return null;

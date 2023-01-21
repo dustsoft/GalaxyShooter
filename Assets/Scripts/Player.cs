@@ -249,6 +249,9 @@ public class Player : MonoBehaviour
             }
 
             _audioSource.clip = _laserSFX;
+
+            _audioSource.pitch = Random.Range(0.9f, 1.1f);
+
             _audioSource.Play();
             _laserAmmo = _laserAmmo - 1;
             _uiManager.UpdateAmmo(_laserAmmo);
