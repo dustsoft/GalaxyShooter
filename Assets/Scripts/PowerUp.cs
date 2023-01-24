@@ -5,7 +5,7 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour
 {
     [SerializeField] float _speed = 3f;
-    [SerializeField] int _powerUpID; // 0 = Laser PowerUp 1 = Shield PowerUp 2 = 1UP PowerUp
+    [SerializeField] int _powerUpID; // 0 = Laser PowerUp, 1 = Shield PowerUp, 2 = 1UP PowerUp, 3 = Neg PowerDown
     [SerializeField] AudioClip _soundClip;
 
 
@@ -39,6 +39,9 @@ public class PowerUp : MonoBehaviour
                         break;
                     case 2:
                         player.ExtraLivePowerUp();
+                        break;
+                    case 3:
+                        player.NegPowerdown();
                         break;
                 }
             }

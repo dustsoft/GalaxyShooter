@@ -11908,11 +11908,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 4888116011426332138, guid: 8f00c7be433b74c46ba52ad3a33fe2f9, type: 3}
   _enemyContainer: {fileID: 969730350}
-  _enemySpawnRate: 5
   _powerUps:
   - {fileID: 2001890998300611519, guid: 031d035cdade347a3bc8f12d3c316362, type: 3}
   - {fileID: 8861119285440937907, guid: 9cf0e44643f1244b080103fa08fd6be5, type: 3}
   - {fileID: 419052379017448217, guid: 98d1be9ed6cf54ff1a0b2fc062359bcd, type: 3}
+  - {fileID: 6342109119355284389, guid: 75fc3d6a8f8c6e04993409f3184691c5, type: 3}
+  waveNumber: 1
+  enemyDestroyedCount: 0
   _enemyMoveSetID: 0
 --- !u!4 &1338145376
 Transform:

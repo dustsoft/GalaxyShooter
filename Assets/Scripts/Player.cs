@@ -424,6 +424,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void NegPowerdown()
+    {
+        _focusBar.current = 0;
+    }
+
     public void AddScore()
     {
         _scoreValue += 50; // May need to use variable in future for point scaling
