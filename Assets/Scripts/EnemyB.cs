@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyA : MonoBehaviour
+public class EnemyB : MonoBehaviour
 {
     [SerializeField] SpriteRenderer _spriteRenderer;
     [SerializeField] GameObject _enemyObject;
@@ -10,7 +10,7 @@ public class EnemyA : MonoBehaviour
     [SerializeField] GameObject _explosionObject;
     [SerializeField] GameObject _laserImpactVFX;
     [SerializeField] BoxCollider2D _enemyHitBox;
-    [SerializeField] float _fireRate = 3f;
+    [SerializeField] float _fireRate = 1f;
     [SerializeField] int _enemyHitPoints = 5;
     [SerializeField] int _hitFlashes;
     [SerializeField] Player _player;
@@ -18,8 +18,15 @@ public class EnemyA : MonoBehaviour
     [SerializeField] AudioSource _audioSource;
     float _canFire = -1;
     public bool _enemyIsDead = false;
-
     [SerializeField] SpawnManager _spawnManager;
+
+    // Enemy Movement
+    [SerializeField] float _frequency = 1.0f;
+    [SerializeField] float _amplitude = 5.0f;
+    [SerializeField] float _cycleSpeed = 1.0f;
+
+    Vector3 pos;
+    Vector3 axis;
 
     private void Start()
     {
@@ -27,6 +34,9 @@ public class EnemyA : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _player = GameObject.Find("Player").GetComponent<Player>();
         _spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>();
+
+        pos = transform.position;
+        axis = transform.right;
 
 
         if (_audioSource == null)
@@ -47,56 +57,14 @@ public class EnemyA : MonoBehaviour
 
     void EnemyMovement()
     {
-        if (_spawnManager._enemyMoveSetID == 0)
-        {
-            StraightDown();
-        }
-
-        if (_spawnManager._enemyMoveSetID == 1)
-        {
-            FromLeft();
-        }
-
-        if (_spawnManager._enemyMoveSetID == 2)
-        {
-            FromRight();
-        }
+        pos = pos + Vector3.down * Time.deltaTime * _cycleSpeed;
+        transform.position = pos + axis * Mathf.Sin(Time.time * _frequency) * _amplitude;
     }
 
-    void StraightDown()
-    {
-        transform.Translate(Vector3.down * Time.deltaTime * 2.75f);
-
-        if (transform.position.y < -6.5f)
-        {
-            Destroy(this.gameObject);
-        }
-    }
-
-    void FromLeft()
-    {
-        transform.Translate(Vector3.right * Time.deltaTime * 2.75f);
-
-        if (transform.position.x > 7f)
-        {
-            Destroy(this.gameObject);
-        }
-    }
-
-    void FromRight()
-    {
-        transform.Translate(Vector3.left * Time.deltaTime * 2.75f);
-
-        if (transform.position.x < -7f)
-        {
-            Destroy(this.gameObject);
-        }
-    }
 
     void EnemyShooting()
     {
         StartCoroutine(EnemyShootingRoutine());
-
     }
 
     void OnTriggerEnter2D(Collider2D other)
