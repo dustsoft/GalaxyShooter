@@ -13,6 +13,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _gameOverText;
     [SerializeField] TextMeshProUGUI _ammoText;
 
+    [SerializeField] GameObject _waveDisplay;
+    [SerializeField] TextMeshProUGUI _waveText;
+
     [SerializeField] Image _livesImage;
     [SerializeField] Sprite[] _livesSprites;
     [SerializeField] Image _shieldsImage;
@@ -22,7 +25,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject _gamePauseMenu;
 
     GameManager _gameManager;
+    SpawnManager _spawnManager;
+
     bool _finalChance = false;
+    public bool _waveOneStarted = false;
+    public bool _waveTwoStarted = false;
     #endregion
 
     void Start()
@@ -33,6 +40,18 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("GAME MANAGER IS NULL");
         }
+
+        _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
+
+        if (_spawnManager == null)
+        {
+            Debug.LogError("SPAWN MANAGER IS NULL!");
+        }
+    }
+
+    private void Update()
+    {
+        WaveSystemUI();
     }
 
     public void ChangeFillBarColorRed()
@@ -96,6 +115,11 @@ public class UIManager : MonoBehaviour
         StartCoroutine(GameOverTextFlicker());
     }
 
+    public void WaveSystemUI()
+    {
+        StartCoroutine(WaveRotuine());
+    }
+
     public void FinalWarningSequnce()
     {
         _finalChance = true;
@@ -131,5 +155,30 @@ public class UIManager : MonoBehaviour
             _gameOverText.text = "";
             yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    IEnumerator WaveRotuine()
+    {
+        if (_spawnManager.waveNumber == 1 && _waveOneStarted == false)
+        {
+            _waveText.text = "WAVE 1";
+            _waveDisplay.SetActive(true);
+            yield return new WaitForSeconds(3.33f);
+            _waveDisplay.SetActive(false);
+            _waveOneStarted = true;
+            StopCoroutine(WaveRotuine());
+        }
+
+        if (_spawnManager.waveNumber == 2 && _waveTwoStarted == false)
+        {
+            _waveText.text = "WAVE 2";
+            _waveDisplay.SetActive(true);
+            yield return new WaitForSeconds(3.33f);
+            _waveDisplay.SetActive(false);
+            _waveTwoStarted = true;
+            StopCoroutine(WaveRotuine());
+        }
+
+
     }
 }

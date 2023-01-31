@@ -10,6 +10,9 @@ public class SpawnManager : MonoBehaviour
     //[SerializeField] float _enemySpawnRate = 4.75f;
     [SerializeField] GameObject[] _powerUps;
 
+    UIManager _uiManager;
+
+
     public int waveNumber = 1;
 
     public int enemyDestroyedCount;
@@ -21,8 +24,12 @@ public class SpawnManager : MonoBehaviour
 
     void Start()
     {
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
         StartCoroutine(EnemySpawnRoutine());
         StartCoroutine(PowerUpSpawnRoutine());
+
+
     }
 
     IEnumerator EnemySpawnRoutine()
@@ -63,7 +70,7 @@ public class SpawnManager : MonoBehaviour
         }
 
         //WAVE ONE
-        if (waveNumber == 1)
+        if (waveNumber == 1 && _uiManager._waveOneStarted == true)
         {
             _enemySpawnRate = 5.5f;
             _enemyMoveSetID = Random.Range(0, 3);
@@ -88,7 +95,7 @@ public class SpawnManager : MonoBehaviour
         }
 
         //WAVE TWO
-        if (waveNumber == 2)
+        if (waveNumber == 2 && _uiManager._waveTwoStarted == true)
         {
             _enemySpawnRate = 4f;
             _enemyMoveSetID = Random.Range(0, 3);
