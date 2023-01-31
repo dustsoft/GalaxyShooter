@@ -7,31 +7,35 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     #region VARIABLES
+    [Header("Score Info")]
     [SerializeField] TextMeshProUGUI _scoreText;
     [SerializeField] TextMeshProUGUI _highScoreText;
-    [SerializeField] TextMeshProUGUI _finalWarningText;
-    [SerializeField] TextMeshProUGUI _gameOverText;
-    [SerializeField] TextMeshProUGUI _ammoText;
 
+    [Header("Wave System Info")]
     [SerializeField] GameObject _waveDisplay;
     [SerializeField] TextMeshProUGUI _waveText;
+    public bool _waveOneStarted = false;
+    public bool _waveTwoStarted = false;
 
+    [Header("Game UI Info")]
+    [SerializeField] TextMeshProUGUI _ammoText;
     [SerializeField] Image _livesImage;
     [SerializeField] Sprite[] _livesSprites;
     [SerializeField] Image _shieldsImage;
     [SerializeField] Sprite[] _shieldsSprite;
-
     [SerializeField] GameObject _fillBar;
+
+    [Header("Misc UI Info")]
     [SerializeField] GameObject _gamePauseMenu;
+    [SerializeField] TextMeshProUGUI _finalWarningText;
+    [SerializeField] TextMeshProUGUI _gameOverText;
 
     GameManager _gameManager;
     SpawnManager _spawnManager;
-
     bool _finalChance = false;
-    public bool _waveOneStarted = false;
-    public bool _waveTwoStarted = false;
     #endregion
 
+    #region METHODS/FUNCTIONS
     void Start()
     {
         _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
@@ -117,7 +121,7 @@ public class UIManager : MonoBehaviour
 
     public void WaveSystemUI()
     {
-        StartCoroutine(WaveRotuine());
+        StartCoroutine(WaveRoutine());
     }
 
     public void FinalWarningSequnce()
@@ -125,6 +129,9 @@ public class UIManager : MonoBehaviour
         _finalChance = true;
         StartCoroutine(FinalChanceFlicker());
     }
+    #endregion
+
+    #region COROUTINES
 
     IEnumerator FinalChanceFlicker()
     {
@@ -157,7 +164,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    IEnumerator WaveRotuine()
+    IEnumerator WaveRoutine()
     {
         if (_spawnManager.waveNumber == 1 && _waveOneStarted == false)
         {
@@ -166,7 +173,7 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(3.33f);
             _waveDisplay.SetActive(false);
             _waveOneStarted = true;
-            StopCoroutine(WaveRotuine());
+            StopCoroutine(WaveRoutine());
         }
 
         if (_spawnManager.waveNumber == 2 && _waveTwoStarted == false)
@@ -176,9 +183,8 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(3.33f);
             _waveDisplay.SetActive(false);
             _waveTwoStarted = true;
-            StopCoroutine(WaveRotuine());
+            StopCoroutine(WaveRoutine());
         }
-
-
     }
+    #endregion
 }

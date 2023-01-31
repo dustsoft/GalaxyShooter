@@ -4,58 +4,34 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    #region VARIABLES
+    [Header("Enemy/MOB Info")]
     [SerializeField] GameObject _enemyPrefab;
     [SerializeField] GameObject _enemyPrefab2;
     [SerializeField] GameObject _enemyContainer;
-    //[SerializeField] float _enemySpawnRate = 4.75f;
+
+    [Header("Wave System Info")]
+    public int waveNumber = 1;
+    public int enemyDestroyedCount;
+    [SerializeField] float _enemySpawnRate;
+
+    [Header("Powerup Info")]
     [SerializeField] GameObject[] _powerUps;
 
-    UIManager _uiManager;
-
-
-    public int waveNumber = 1;
-
-    public int enemyDestroyedCount;
-
-    public int _enemyMoveSetID;
+    [HideInInspector] public int _enemyMoveSetID;
     bool _stopSpawning = false;
 
-    float _enemySpawnRate;
+    UIManager _uiManager;
+    #endregion
 
+    #region METHODS/FUNCTIONS
     void Start()
     {
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         StartCoroutine(EnemySpawnRoutine());
         StartCoroutine(PowerUpSpawnRoutine());
-
-
     }
-
-    IEnumerator EnemySpawnRoutine()
-    {
-        while (_stopSpawning == false)
-        {
-            WaveSystem();
-            yield return new WaitForSeconds(_enemySpawnRate);
-        }
-    }
-
-
-    IEnumerator PowerUpSpawnRoutine()
-    {
-        while (_stopSpawning == false)
-        {
-            Vector3 posToSpawn = new Vector3(Random.Range(-5.19f, 5.19f), 7f, 0f);
-
-            int _randomPowerUp = Random.Range(0, 4);
-
-            Instantiate(_powerUps[_randomPowerUp], posToSpawn, Quaternion.identity);
-
-            yield return new WaitForSeconds(Random.Range(5, 15));
-        }
-    }
-
 
     public void OnPlayerDeath()
     {
@@ -130,13 +106,31 @@ public class SpawnManager : MonoBehaviour
                     break;
             }
         }
+    }
+    #endregion
 
-        //WAVE THREE
-        if (waveNumber == 3)
+    #region COROUTINES
+    IEnumerator EnemySpawnRoutine()
+    {
+        while (_stopSpawning == false)
         {
-            //CODE
+            WaveSystem();
+            yield return new WaitForSeconds(_enemySpawnRate);
         }
     }
 
+    IEnumerator PowerUpSpawnRoutine()
+    {
+        while (_stopSpawning == false)
+        {
+            Vector3 posToSpawn = new Vector3(Random.Range(-5.19f, 5.19f), 7f, 0f);
 
+            int _randomPowerUp = Random.Range(0, 4);
+
+            Instantiate(_powerUps[_randomPowerUp], posToSpawn, Quaternion.identity);
+
+            yield return new WaitForSeconds(Random.Range(5, 15));
+        }
+    }
+    #endregion
 }
