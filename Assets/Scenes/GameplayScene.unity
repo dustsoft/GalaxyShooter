@@ -6241,11 +6241,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scoreText: {fileID: 1974437755}
   _highScoreText: {fileID: 988182326}
-  _finalWarningText: {fileID: 1923285487}
-  _gameOverText: {fileID: 1663588729}
-  _ammoText: {fileID: 110253229}
   _waveDisplay: {fileID: 1346632534}
   _waveText: {fileID: 1346632536}
+  _waveOneStarted: 0
+  _waveTwoStarted: 0
+  _ammoText: {fileID: 110253229}
   _livesImage: {fileID: 1586531231}
   _livesSprites:
   - {fileID: 21300000, guid: ba53e111f0125654cabfd4eefaf3a657, type: 3}
@@ -6260,8 +6260,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a18bee805b29b48edbb1462f425fa151, type: 3}
   _fillBar: {fileID: 825229950}
   _gamePauseMenu: {fileID: 256915021}
-  _waveOneStarted: 0
-  _waveTwoStarted: 0
+  _finalWarningText: {fileID: 1923285487}
+  _gameOverText: {fileID: 1663588729}
 --- !u!1 &825229950
 GameObject:
   m_ObjectHideFlags: 0
@@ -11913,15 +11913,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 4888116011426332138, guid: 8f00c7be433b74c46ba52ad3a33fe2f9, type: 3}
   _enemyPrefab2: {fileID: 9072912786062743772, guid: 5ac9b1d67b5847a44acde616f1577e4b, type: 3}
+  _enemyPrefab3: {fileID: 9072912786062743772, guid: ea0131faa904d4fddba6905aecd4047f, type: 3}
   _enemyContainer: {fileID: 969730350}
+  _enemyMoveSetID: 0
+  waveNumber: 1
+  enemyDestroyedCount: 0
+  _enemySpawnRate: 0
   _powerUps:
   - {fileID: 2001890998300611519, guid: 031d035cdade347a3bc8f12d3c316362, type: 3}
   - {fileID: 8861119285440937907, guid: 9cf0e44643f1244b080103fa08fd6be5, type: 3}
   - {fileID: 419052379017448217, guid: 98d1be9ed6cf54ff1a0b2fc062359bcd, type: 3}
   - {fileID: 6342109119355284389, guid: 75fc3d6a8f8c6e04993409f3184691c5, type: 3}
-  waveNumber: 1
-  enemyDestroyedCount: 0
-  _enemyMoveSetID: 0
 --- !u!4 &1338145376
 Transform:
   m_ObjectHideFlags: 0

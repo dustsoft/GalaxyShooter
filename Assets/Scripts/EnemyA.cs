@@ -173,6 +173,7 @@ public class EnemyA : MonoBehaviour
     IEnumerator EnemyExplosion()
     {
         _enemyIsDead = true;
+        StopCoroutine(EnemyShootingRoutine());
         _spawnManager.enemyDestroyedCount = _spawnManager.enemyDestroyedCount + 1;
         yield return null;
         _explosionObject.SetActive(true);

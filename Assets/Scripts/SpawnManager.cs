@@ -8,7 +8,9 @@ public class SpawnManager : MonoBehaviour
     [Header("Enemy/MOB Info")]
     [SerializeField] GameObject _enemyPrefab;
     [SerializeField] GameObject _enemyPrefab2;
+    [SerializeField] GameObject _enemyPrefab3;
     [SerializeField] GameObject _enemyContainer;
+    [HideInInspector] public int _enemyMoveSetID;
 
     [Header("Wave System Info")]
     public int waveNumber = 1;
@@ -16,12 +18,12 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] float _enemySpawnRate;
 
     [Header("Powerup Info")]
-    [SerializeField] GameObject[] _powerUps;
+    [SerializeField] GameObject[] _powerUps; // 0 = tripleshot 1 = Shields 2 = 1UP 3 = NegItem
 
-    [HideInInspector] public int _enemyMoveSetID;
     bool _stopSpawning = false;
 
     UIManager _uiManager;
+
     #endregion
 
     #region METHODS/FUNCTIONS
@@ -49,6 +51,8 @@ public class SpawnManager : MonoBehaviour
         if (waveNumber == 1 && _uiManager._waveOneStarted == true)
         {
             _enemySpawnRate = 5.5f;
+
+            // Enemy A
             _enemyMoveSetID = Random.Range(0, 3);
             switch (_enemyMoveSetID)
             {
@@ -68,11 +72,17 @@ public class SpawnManager : MonoBehaviour
                     newEnemy2.transform.parent = _enemyContainer.transform;
                     break;
             }
+
+            // Enemy B
+            Vector3 posToSpawnB = new Vector3(Random.Range(-5.19f, 5.19f), 7f, 0f);
+            GameObject newEnemyB = Instantiate(_enemyPrefab2, posToSpawnB, Quaternion.identity);
+            newEnemyB.transform.parent = _enemyContainer.transform;
         }
 
         //WAVE TWO
         if (waveNumber == 2 && _uiManager._waveTwoStarted == true)
         {
+            // Enemy A
             _enemySpawnRate = 4f;
             _enemyMoveSetID = Random.Range(0, 3);
             switch (_enemyMoveSetID)
@@ -82,17 +92,11 @@ public class SpawnManager : MonoBehaviour
                     GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
                     newEnemy.transform.parent = _enemyContainer.transform;
 
-                    GameObject newEnemyB = Instantiate(_enemyPrefab2, posToSpawn, Quaternion.identity);
-                    newEnemyB.transform.parent = _enemyContainer.transform;
-
                     break;
                 case 1: // Move Left
                     Vector3 posToSpawn1 = new Vector3(-6.5f, Random.Range(4f, 1f), 0f);
                     GameObject newEnemy1 = Instantiate(_enemyPrefab, posToSpawn1, Quaternion.identity);
                     newEnemy1.transform.parent = _enemyContainer.transform;
-
-                    GameObject newEnemyB1 = Instantiate(_enemyPrefab2, posToSpawn1, Quaternion.identity);
-                    newEnemyB1.transform.parent = _enemyContainer.transform;
 
                     break;
                 case 2: // Move Right
@@ -100,13 +104,22 @@ public class SpawnManager : MonoBehaviour
                     GameObject newEnemy2 = Instantiate(_enemyPrefab, posToSpawn2, Quaternion.identity);
                     newEnemy2.transform.parent = _enemyContainer.transform;
 
-                    GameObject newEnemyB2 = Instantiate(_enemyPrefab2, posToSpawn2, Quaternion.identity);
-                    newEnemyB2.transform.parent = _enemyContainer.transform;
-
                     break;
             }
+
+            // Enemy B
+            Vector3 posToSpawnB = new Vector3(Random.Range(-5.19f, 5.19f), 7f, 0f);
+            GameObject newEnemyB = Instantiate(_enemyPrefab2, posToSpawnB, Quaternion.identity);
+            newEnemyB.transform.parent = _enemyContainer.transform;
+
+            // Enemy C
+            Vector3 posToSpawnC = new Vector3(Random.Range(-5.19f, 5.19f), 7f, 0f);
+            GameObject newEnemyC = Instantiate(_enemyPrefab3, posToSpawnC, Quaternion.identity);
+            newEnemyC.transform.parent = _enemyContainer.transform;
+
         }
     }
+
     #endregion
 
     #region COROUTINES
@@ -121,13 +134,14 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator PowerUpSpawnRoutine()
     {
+
         while (_stopSpawning == false)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-5.19f, 5.19f), 7f, 0f);
 
-            int _randomPowerUp = Random.Range(0, 4);
+            int randomPowerUp = Random.Range(0, 4); 
 
-            Instantiate(_powerUps[_randomPowerUp], posToSpawn, Quaternion.identity);
+            Instantiate(_powerUps[randomPowerUp], posToSpawn, Quaternion.identity);
 
             yield return new WaitForSeconds(Random.Range(5, 15));
         }
