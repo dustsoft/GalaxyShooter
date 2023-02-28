@@ -16,7 +16,10 @@ public class EnemyC : MonoBehaviour
     [SerializeField] Player _player;
     [SerializeField] AudioClip _explosionSFX;
     [SerializeField] AudioSource _audioSource;
-    [SerializeField] Rigidbody2D _rb;
+
+    float _enemySpeed = 2f;
+
+
     [SerializeField] Transform _target;
 
     float _minDistance = 4f;
@@ -33,8 +36,8 @@ public class EnemyC : MonoBehaviour
         _player = GameObject.Find("Player").GetComponent<Player>();
         _spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>();
 
-        _rb = GetComponent<Rigidbody2D>();
-        _target = GameObject.Find("Player").transform;
+
+        _target = _player.transform;
 
         if (_audioSource == null)
         {
@@ -48,19 +51,27 @@ public class EnemyC : MonoBehaviour
 
     void Update()
     {
-        float distance = Vector3.Distance(_target.position, _rb.position);
+        float distance = Vector3.Distance(_target.position, transform.position);
 
-        EnemyMovement();
+        if (distance < 3f)
+        {
+            RamInPlayerDirection();
+        }
+        else
+            EnemyMovement();
     }
 
     void RamInPlayerDirection()
     {
+        transform.position = Vector3.MoveTowards(transform.position, _target.position, 1.5f * _enemySpeed * Time.deltaTime);
+
+
         Debug.Log("RAM PLAYER!");
     }
 
     void EnemyMovement()
     {
-        transform.Translate(Vector3.down * Time.deltaTime * 2f);
+        transform.Translate(Vector3.down * Time.deltaTime * _enemySpeed);
 
         if (transform.position.y < -6.5f)
         {
