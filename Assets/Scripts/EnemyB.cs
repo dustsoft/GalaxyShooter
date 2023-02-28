@@ -161,6 +161,8 @@ public class EnemyB : MonoBehaviour
 
     IEnumerator EnemyShootingRoutine()
     {
+        //UPDATE USINGN WHILE LOOP
+
         if (Time.time > _canFire && _enemyIsDead == false)
         {
             _canFire = Time.time + _fireRate;

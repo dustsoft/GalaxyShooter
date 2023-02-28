@@ -143,17 +143,15 @@ public class SpawnManager : MonoBehaviour
 
             Vector3 posToSpawn = new Vector3(Random.Range(-5.19f, 5.19f), 7f, 0f);
 
-            if (_randomPowerUp < 35 && _randomPowerUp > 10)
+            if (_randomPowerUp < 75 && _randomPowerUp > 35) //TRIPLE SHOT
             {
                 Instantiate(_powerUps[0], posToSpawn, Quaternion.identity);
             }
-
-            if (_randomPowerUp <= 35)
+            else if (_randomPowerUp <= 35 && _randomPowerUp > 10) //Shield + 1UP
             {
                 Instantiate(_powerUps[Random.Range(1,3)], posToSpawn, Quaternion.identity);
             }
-
-            if (_randomPowerUp <= 10)
+            else if (_randomPowerUp <= 10) // Neg Item
             {
                 Instantiate(_powerUps[3], posToSpawn, Quaternion.identity);
             }
