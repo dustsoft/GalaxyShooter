@@ -21,6 +21,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject[] _powerUps; // 0 = tripleshot 1 = Shields 2 = 1UP 3 = NegItem
 
     bool _stopSpawning = false;
+    int _randomPowerUp;
+
 
     UIManager _uiManager;
 
@@ -137,11 +139,24 @@ public class SpawnManager : MonoBehaviour
 
         while (_stopSpawning == false)
         {
+            _randomPowerUp = Random.Range(0, 100);
+
             Vector3 posToSpawn = new Vector3(Random.Range(-5.19f, 5.19f), 7f, 0f);
 
-            int randomPowerUp = Random.Range(0, 4); 
+            if (_randomPowerUp < 35 && _randomPowerUp > 10)
+            {
+                Instantiate(_powerUps[0], posToSpawn, Quaternion.identity);
+            }
 
-            Instantiate(_powerUps[randomPowerUp], posToSpawn, Quaternion.identity);
+            if (_randomPowerUp <= 35)
+            {
+                Instantiate(_powerUps[Random.Range(1,3)], posToSpawn, Quaternion.identity);
+            }
+
+            if (_randomPowerUp <= 10)
+            {
+                Instantiate(_powerUps[3], posToSpawn, Quaternion.identity);
+            }
 
             yield return new WaitForSeconds(Random.Range(5, 15));
         }

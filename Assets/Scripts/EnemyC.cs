@@ -16,6 +16,11 @@ public class EnemyC : MonoBehaviour
     [SerializeField] Player _player;
     [SerializeField] AudioClip _explosionSFX;
     [SerializeField] AudioSource _audioSource;
+    [SerializeField] Rigidbody2D _rb;
+    [SerializeField] Transform _target;
+
+    float _minDistance = 4f;
+
     float _canFire = -1;
     bool _enemyIsDead = false;
 
@@ -27,6 +32,9 @@ public class EnemyC : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _player = GameObject.Find("Player").GetComponent<Player>();
         _spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>();
+
+        _rb = GetComponent<Rigidbody2D>();
+        _target = GameObject.Find("Player").transform;
 
         if (_audioSource == null)
         {
@@ -40,6 +48,8 @@ public class EnemyC : MonoBehaviour
 
     void Update()
     {
+        float distance = Vector3.Distance(_target.position, _rb.position);
+
         EnemyMovement();
     }
 

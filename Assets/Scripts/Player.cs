@@ -64,8 +64,10 @@ public class Player : MonoBehaviour
     bool _hitBox;
     bool _gameIsPaused = false;
     public bool _focusMode = false;
-    public bool _energyEmpty = false; 
+    public bool _energyEmpty = false;
     #endregion
+
+    #region METHODS/FUNCTION
 
     void Start()
     {
@@ -443,6 +445,8 @@ public class Player : MonoBehaviour
         _uiManager.UpdateScore(_scoreValue, _highScoreValue);
 
     }
+
+    #endregion
 
     #region COROUTINES
     IEnumerator PlayerDeathRoutine() // Gameplay Death Routine
