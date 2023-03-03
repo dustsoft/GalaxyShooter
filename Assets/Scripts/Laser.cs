@@ -6,12 +6,15 @@ public class Laser : MonoBehaviour
 {
     [SerializeField] float _bulletSpeed;
     bool _isEnemyLaser = false;
-
+    bool _backAttack = false;
 
 
     void Update()
     {
-        if (_isEnemyLaser == false)
+        if (_backAttack == true)
+            FireLaserAtPlayer();
+
+        else if (_isEnemyLaser == false)
         {
             MoveUp();
         }
@@ -19,7 +22,6 @@ public class Laser : MonoBehaviour
         {
             MoveDown();
         }
-
 
     }
 
@@ -69,7 +71,31 @@ public class Laser : MonoBehaviour
                 player.Damage();
                 Destroy(this.gameObject);
             }
+        }
+        else if (other.tag == "Player" && _backAttack == true)
+        {
+            Player player = other.GetComponent<Player>();
 
+            if (player != null)
+            {
+                player.Damage();
+                Destroy(this.gameObject);
+            }
+        }
+    }
+
+    public void AssignBackAttack()
+    {
+        _backAttack = true;
+    }
+
+    public void FireLaserAtPlayer()
+    {
+        transform.Translate(Vector3.up * Time.deltaTime * 5);
+
+        if (transform.position.y > 8)
+        {
+            Destroy(this.gameObject);
         }
     }
 

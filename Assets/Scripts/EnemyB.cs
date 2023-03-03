@@ -20,13 +20,14 @@ public class EnemyB : MonoBehaviour
     public bool _enemyIsDead = false;
     [SerializeField] SpawnManager _spawnManager;
 
-    // Enemy Movement
+    [Header("Enemy Movement")]
     [SerializeField] float _frequency = 1.0f;
     [SerializeField] float _amplitude = 5.0f;
     [SerializeField] float _cycleSpeed = 1.0f;
 
     Vector3 pos;
     Vector3 axis;
+    Vector3 _offset;
 
     private void Start()
     {
@@ -36,6 +37,8 @@ public class EnemyB : MonoBehaviour
         _player = GameObject.Find("Player").GetComponent<Player>();
         _spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>();
         #endregion
+
+        _offset = new Vector3(0, -0.75f, 0);
 
         pos = transform.position;
         axis = transform.right;
@@ -54,7 +57,6 @@ public class EnemyB : MonoBehaviour
     void Update()
     {
         EnemyMovement();
-
         EnemyShooting();
     }
 
@@ -161,21 +163,21 @@ public class EnemyB : MonoBehaviour
 
     IEnumerator EnemyShootingRoutine()
     {
-        //UPDATE USINGN WHILE LOOP
-
         if (Time.time > _canFire && _enemyIsDead == false)
         {
             _canFire = Time.time + _fireRate;
+
             yield return new WaitForSeconds(1f);
-            var offset = new Vector3(0, -0.75f, 0);
-            GameObject laser = Instantiate(_enemyLaserPrefab, transform.position + offset, Quaternion.identity);
-            laser.GetComponent<Laser>().AssignEnemyLaser();
-            yield return new WaitForSeconds(0.25f);
-            laser = Instantiate(_enemyLaserPrefab, transform.position + offset, Quaternion.identity);
-            laser.GetComponent<Laser>().AssignEnemyLaser();
-            yield return new WaitForSeconds(0.25f);
-            laser = Instantiate(_enemyLaserPrefab, transform.position + offset, Quaternion.identity);
-            laser.GetComponent<Laser>().AssignEnemyLaser();
+
+            int fireCount = 3;
+
+            while (_enemyIsDead == false && fireCount > 0)
+            {
+                fireCount--;
+                GameObject laser = Instantiate(_enemyLaserPrefab, transform.position + _offset, Quaternion.identity);
+                laser.GetComponent<Laser>().AssignEnemyLaser();
+                yield return new WaitForSeconds(0.25f);
+            }
         }
     }
     #endregion

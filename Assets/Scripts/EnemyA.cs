@@ -19,6 +19,8 @@ public class EnemyA : MonoBehaviour
     float _canFire = -1;
     public bool _enemyIsDead = false;
 
+    public bool _playerIsBehindEnemy = false;
+
     [SerializeField] SpawnManager _spawnManager;
 
     private Coroutine _shootRoutine;
@@ -47,6 +49,7 @@ public class EnemyA : MonoBehaviour
 
     void Update()
     {
+        BackAttack();
         EnemyMovement();
         EnemyShooting();
     }
@@ -102,6 +105,20 @@ public class EnemyA : MonoBehaviour
     void EnemyShooting()
     {
         _shootRoutine = StartCoroutine(EnemyShootingRoutine());
+    }
+
+    void BackAttack()
+    {
+        if (_player.transform.position.y > transform.position.y)
+        {
+            if (_player.transform.position.x <= transform.position.x + 1 && _player.transform.position.x >= transform.position.x - 1)
+            {
+                _playerIsBehindEnemy = true;
+                Debug.Log("FIREBACKWORDS");
+            }
+        }
+        else
+            _playerIsBehindEnemy = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -203,15 +220,34 @@ public class EnemyA : MonoBehaviour
 
             int fireCount = 3;
 
-            while (_enemyIsDead == false && fireCount > 0)
+            if (_playerIsBehindEnemy == true)
             {
-                fireCount--;
-                GameObject laser = Instantiate(_enemyLaserPrefab, transform.position + _offset, Quaternion.identity);
-                laser.GetComponent<Laser>().AssignEnemyLaser();
-                yield return new WaitForSeconds(0.25f);
-            }
+                fireCount = 2;
 
-           
+                _offset = new Vector3(0, 0.75f, 0);
+
+                while (_enemyIsDead == false && fireCount > 0)
+                {
+                    fireCount--;
+                    GameObject laser = Instantiate(_enemyLaserPrefab, transform.position + _offset, Quaternion.identity);
+                    laser.GetComponent<Laser>().AssignBackAttack();
+                    yield return new WaitForSeconds(0.25f);
+                }
+            }
+            else
+            {
+                fireCount = 3;
+
+                _offset = new Vector3(0, -0.75f, 0);
+
+                while (_enemyIsDead == false && fireCount > 0)
+                {
+                    fireCount--;
+                    GameObject laser = Instantiate(_enemyLaserPrefab, transform.position + _offset, Quaternion.identity);
+                    laser.GetComponent<Laser>().AssignEnemyLaser();
+                    yield return new WaitForSeconds(0.25f);
+                }
+            }
         }
     }
     #endregion

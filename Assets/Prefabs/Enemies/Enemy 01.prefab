@@ -109,6 +109,7 @@ MonoBehaviour:
   _explosionSFX: {fileID: 8300000, guid: 8ebd0477969e593488af111d8f431d3e, type: 3}
   _audioSource: {fileID: 7503140583943576665}
   _enemyIsDead: 0
+  _spawnManager: {fileID: 0}
 --- !u!82 &7503140583943576665
 AudioSource:
   m_ObjectHideFlags: 0

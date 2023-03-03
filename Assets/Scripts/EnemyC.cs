@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyC : MonoBehaviour
 {
+    //THIS IS THE RAMMING ENEMY!
+
     [SerializeField] SpriteRenderer _spriteRenderer;
     [SerializeField] GameObject _enemyObject;
     [SerializeField] GameObject _enemyLaserPrefab;
@@ -64,9 +66,6 @@ public class EnemyC : MonoBehaviour
     void RamInPlayerDirection()
     {
         transform.position = Vector3.MoveTowards(transform.position, _target.position, 1.5f * _enemySpeed * Time.deltaTime);
-
-
-        Debug.Log("RAM PLAYER!");
     }
 
     void EnemyMovement()
