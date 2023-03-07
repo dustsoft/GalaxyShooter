@@ -15,14 +15,16 @@ public class EnemyC : MonoBehaviour
     [SerializeField] float _fireRate = 3f;
     [SerializeField] int _enemyHitPoints = 5;
     [SerializeField] int _hitFlashes;
+
     [SerializeField] Player _player;
+    [SerializeField] Transform _target;
+
     [SerializeField] AudioClip _explosionSFX;
     [SerializeField] AudioSource _audioSource;
 
     float _enemySpeed = 2f;
 
 
-    [SerializeField] Transform _target;
 
     float _minDistance = 4f;
 
@@ -35,8 +37,9 @@ public class EnemyC : MonoBehaviour
     {
         _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         _audioSource = GetComponent<AudioSource>();
-        _player = GameObject.Find("Player").GetComponent<Player>();
         _spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>();
+
+        _player = GameObject.Find("Player").GetComponent<Player>();
 
 
         _target = _player.transform;
