@@ -82,6 +82,12 @@ public class Laser : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
+
+        if (other.tag == "Item" && _isEnemyLaser == true)
+        {
+            Destroy(GameObject.FindWithTag("Item"));
+            Destroy(this.gameObject);
+        }
     }
 
     public void AssignBackAttack()
