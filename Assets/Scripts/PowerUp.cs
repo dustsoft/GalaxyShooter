@@ -8,15 +8,28 @@ public class PowerUp : MonoBehaviour
     [SerializeField] int _powerUpID; // 0 = Laser PowerUp, 1 = Shield PowerUp, 2 = 1UP PowerUp, 3 = Neg PowerDown
     [SerializeField] AudioClip _soundClip;
 
+    Player _player;
+
+    private void Start()
+    {
+        _player = GameObject.Find("Player").GetComponent<Player>();
+    }
 
     void Update()
     {
+        ItemMagnet();
+
         transform.Translate(Vector3.down * Time.deltaTime * 1.5f * _speed);
 
         if (transform.position.y < -6.5f)
         {
             Destroy(this.gameObject);
         }
+    }
+
+    private void ItemMagnet()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, 2f * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

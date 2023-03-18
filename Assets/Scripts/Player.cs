@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
     bool _gameIsPaused = false;
     public bool _focusMode = false;
     public bool _energyEmpty = false;
+
     #endregion
 
     #region METHODS/FUNCTION
@@ -112,6 +113,8 @@ public class Player : MonoBehaviour
         {
             Debug.Log("The Camera Shake is NULL!");
         }
+
+
     }
 
     void Update()
