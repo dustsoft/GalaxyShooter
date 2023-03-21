@@ -13,36 +13,31 @@ public class EnemyA : MonoBehaviour
     [SerializeField] float _fireRate = 3f;
     [SerializeField] int _enemyHitPoints = 5;
     [SerializeField] int _hitFlashes;
+
     [SerializeField] Player _player;
+
     [SerializeField] AudioClip _explosionSFX;
     [SerializeField] AudioSource _audioSource;
-    float _canFire = -1;
-    public bool _enemyIsDead = false;
-
-    public bool _playerIsBehindEnemy = false;
-
-    bool _enemyCanShootItem;
-
-    GameObject _item;
-    Transform _target;
-
     [SerializeField] SpawnManager _spawnManager;
 
-    private Coroutine _shootRoutine;
+    float _canFire = -1;
 
-    private Vector3 _offset;
+    bool _enemyIsDead = false;
 
-    private void Start()
+    bool _playerIsBehindEnemy = false;
+
+    Coroutine _shootRoutine;
+
+    Vector3 _offset;
+
+    void Start()
     {
+        _player = GameObject.Find("Player").GetComponent<Player>();
         _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         _audioSource = GetComponent<AudioSource>();
-        _player = GameObject.Find("Player").GetComponent<Player>();
         _spriteRenderer = _enemyObject.GetComponent<SpriteRenderer>();
 
         _offset = new Vector3(0, -0.75f, 0);
-
-         _item = GameObject.FindWithTag("Item");
-        _target = _item.transform;
 
         if (_audioSource == null)
         {
@@ -59,17 +54,6 @@ public class EnemyA : MonoBehaviour
         BackAttack();
         EnemyMovement();
         EnemyShooting();
-
-        float distance = Vector3.Distance(_target.position, transform.position);
-
-        if (distance < 4f)
-        {
-            _enemyCanShootItem = true;
-        }
-        else
-        {
-            return;
-        }
     }
 
     void EnemyMovement()
@@ -132,7 +116,7 @@ public class EnemyA : MonoBehaviour
             if (_player.transform.position.x <= transform.position.x + 1 && _player.transform.position.x >= transform.position.x - 1)
             {
                 _playerIsBehindEnemy = true;
-                Debug.Log("FIREBACKWORDS");
+                StartCoroutine(EnemyShootingRoutine());
             }
         }
         else
@@ -240,7 +224,7 @@ public class EnemyA : MonoBehaviour
 
             if (_playerIsBehindEnemy == true)
             {
-                fireCount = 2;
+                fireCount = 5;
 
                 _offset = new Vector3(0, 0.75f, 0);
 
@@ -265,21 +249,6 @@ public class EnemyA : MonoBehaviour
                     laser.GetComponent<Laser>().AssignEnemyLaser();
                     yield return new WaitForSeconds(0.25f);
                 }
-            }
-
-            if (_enemyCanShootItem == true && fireCount > 0)
-            {
-                fireCount = 1;
-                _offset = new Vector3(0, -0.75f, 0);
-
-                while (_enemyIsDead == false && fireCount > 0)
-                {
-                    fireCount--;
-                    GameObject laser = Instantiate(_enemyLaserPrefab, transform.position + _offset, Quaternion.identity);
-                    laser.GetComponent<Laser>().AssignEnemyLaser();
-                    yield return new WaitForSeconds(0.25f);
-                }
-
             }
         }
     }

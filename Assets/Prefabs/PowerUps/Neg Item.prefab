@@ -155,5 +155,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
+  _magnetSpeed: 2
   _powerUpID: 3
   _soundClip: {fileID: 8300000, guid: 069d1cd4d39fdaf48a51ef33277f7961, type: 3}

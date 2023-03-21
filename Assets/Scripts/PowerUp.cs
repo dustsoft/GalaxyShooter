@@ -5,10 +5,14 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour
 {
     [SerializeField] float _speed = 3f;
+    [SerializeField] float _magnetSpeed = 10;
+    [SerializeField] float _magnetDistance = 2.5f;
     [SerializeField] int _powerUpID; // 0 = Laser PowerUp, 1 = Shield PowerUp, 2 = 1UP PowerUp, 3 = Neg PowerDown
     [SerializeField] AudioClip _soundClip;
 
     Player _player;
+
+    bool _itemIsMagnetic;
 
     private void Start()
     {
@@ -17,19 +21,28 @@ public class PowerUp : MonoBehaviour
 
     void Update()
     {
-        ItemMagnet();
+        float distance = Vector3.Distance(transform.position, _player.transform.position);
 
-        transform.Translate(Vector3.down * Time.deltaTime * 1.5f * _speed);
+        if (distance < _magnetDistance && _powerUpID !=3)
+            _itemIsMagnetic = true;
+
+        if (_itemIsMagnetic == false)
+            ItemMovement();
+        else if (_itemIsMagnetic == true)
+            ItemMagnet();
 
         if (transform.position.y < -6.5f)
-        {
             Destroy(this.gameObject);
-        }
+    }
+
+    void ItemMovement()
+    {
+        transform.Translate(Vector3.down * Time.deltaTime * 1.5f * _speed);
     }
 
     private void ItemMagnet()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, 2f * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _magnetSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

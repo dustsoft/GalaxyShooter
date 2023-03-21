@@ -8,7 +8,6 @@ public class Laser : MonoBehaviour
     bool _isEnemyLaser = false;
     bool _backAttack = false;
 
-
     void Update()
     {
         if (_backAttack == true)
@@ -104,5 +103,4 @@ public class Laser : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
 }
