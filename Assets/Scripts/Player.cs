@@ -202,7 +202,6 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-
         if (_laserAmmo > 0)
         {
             // Normal Mode

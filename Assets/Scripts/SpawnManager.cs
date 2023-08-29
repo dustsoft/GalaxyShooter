@@ -5,6 +5,8 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     #region VARIABLES
+    UIManager _uiManager;
+
     [Header("Enemy/MOB Info")]
     [SerializeField] GameObject _enemyPrefab;
     [SerializeField] GameObject _enemyPrefab2;
@@ -21,19 +23,19 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject[] _powerUps; // 0 = tripleshot 1 = Shields 2 = 1UP 3 = NegItem
 
     bool _stopSpawning = false;
+
     int _randomPowerUp;
-
-
-    UIManager _uiManager;
 
     #endregion
 
     #region METHODS/FUNCTIONS
+
     void Start()
     {
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         StartCoroutine(EnemySpawnRoutine());
+
         StartCoroutine(PowerUpSpawnRoutine());
     }
 
@@ -136,22 +138,21 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator PowerUpSpawnRoutine()
     {
-
         while (_stopSpawning == false)
         {
-            _randomPowerUp = Random.Range(0, 100);
+            _randomPowerUp = Random.Range(1, 101);
 
             Vector3 posToSpawn = new Vector3(Random.Range(-5.19f, 5.19f), 7f, 0f);
 
-            if (_randomPowerUp < 75 && _randomPowerUp > 35) //TRIPLE SHOT
+            if (_randomPowerUp < 75 && _randomPowerUp > 35) //TRIPLE SHOT - 40% chance
             {
                 Instantiate(_powerUps[0], posToSpawn, Quaternion.identity);
             }
-            else if (_randomPowerUp <= 35 && _randomPowerUp > 10) //Shield + 1UP
+            else if (_randomPowerUp <= 35 && _randomPowerUp > 10) //Shield + 1UP - 26%
             {
                 Instantiate(_powerUps[Random.Range(1,3)], posToSpawn, Quaternion.identity);
             }
-            else if (_randomPowerUp <= 10) // Neg Item
+            else if (_randomPowerUp <= 10) // Neg Item - 10%
             {
                 Instantiate(_powerUps[3], posToSpawn, Quaternion.identity);
             }

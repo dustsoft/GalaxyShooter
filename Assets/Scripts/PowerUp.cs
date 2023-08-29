@@ -5,14 +5,16 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour
 {
     [SerializeField] float _speed = 3f;
+
     [SerializeField] float _magnetSpeed = 10;
     [SerializeField] float _magnetDistance = 2.5f;
+    bool _itemIsMagnetic;
+    
     [SerializeField] int _powerUpID; // 0 = Laser PowerUp, 1 = Shield PowerUp, 2 = 1UP PowerUp, 3 = Neg PowerDown
     [SerializeField] AudioClip _soundClip;
 
     Player _player;
 
-    bool _itemIsMagnetic;
 
     private void Start()
     {
