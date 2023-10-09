@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571334, b: 0.3069219, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1148,7 +1148,7 @@ GameObject:
   - component: {fileID: 2040154320}
   - component: {fileID: 2040154319}
   m_Layer: 5
-  m_Name: "\xA9 2022 Aeon Studios "
+  m_Name: "\xA9 2024 Aeon Studios "
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1206,7 +1206,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\xA9 2022 Aeon Studios "
+  m_Text: "\xA9 2024 Aeon Studios "
 --- !u!222 &2040154320
 CanvasRenderer:
   m_ObjectHideFlags: 0
